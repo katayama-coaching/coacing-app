@@ -133,7 +133,6 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 2
   </div>
 </div>
 <script>
-var KEY='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';
 var SYSTEM='あなたは一流のエグゼクティブコーチです。答えを与えるのではなく、強力な質問でクライアント自身の気づきを引き出す。GROWモデルを意識する。批判や判断は絶対にしない。1回の返答に質問は必ず1つだけ。温かく、プロフェッショナル、日本語で。返答は3〜5文程度、簡潔かつ本質的に。';
 var QUICK=['もう少し深く掘り下げてください','具体的な例を挙げると…','正直に言うと…','一番大切なのは…'];
 var PHASES=['','最初の一歩','深まってきた','核心に近づいている','重要な気づき','本質が見えてきた'];
@@ -141,7 +140,11 @@ var msgs=[],busy=false,sesN=0,exchanges=0,composing=false;
 function callAPI(history){
   var cleaned=[];
   for(var i=0;i<history.length;i++){var m=history[i];if(m&&m.role&&typeof m.content==='string'&&m.content.trim()){cleaned.push({role:m.role,content:m.content.trim()});}}
-  return fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true','x-api-key':KEY},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:SYSTEM,messages:cleaned})}).then(function(r){return r.json().then(function(data){if(!r.ok)throw new Error(data&&data.error&&data.error.message?data.error.message:'HTTP '+r.status);if(!Array.isArray(data.content))throw new Error('レスポンス形式エラー');return data.content.filter(function(b){return b.type==='text';}).map(function(b){return b.text;}).join('').trim();});});
+  return fetch('/api/chat',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({messages:cleaned,system:SYSTEM})
+  }).then(function(r){return r.json().then(function(data){if(!r.ok)throw new Error(data&&data.error?data.error:'HTTP '+r.status);return data.reply;});});
 }
 function showErr(msg){document.getElementById('err-msg').textContent=msg;document.getElementById('err-bar').style.display='flex';}
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');}
