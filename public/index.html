@@ -72,7 +72,9 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 2
 .char-lbl{font-size:10px;color:#3a3848}
 #send-btn{background:#c8a96e;border:none;border-radius:7px;color:#0a0a0f;font-size:12px;font-weight:700;padding:7px 18px;cursor:pointer;font-family:inherit}
 #send-btn:disabled{opacity:.32;cursor:not-allowed}
-</style>
+.pay-btn{display:block;width:100%;background:linear-gradient(135deg,#c8a96e,#e8c98e);border:none;color:#0a0a0f;font-size:15px;font-weight:800;padding:16px 0;border-radius:10px;cursor:pointer;font-family:inherit;letter-spacing:.04em;margin-bottom:10px;box-shadow:0 4px 20px rgba(200,169,110,.35)}
+.pay-btn:hover{opacity:.9}
+.pay-btn:disabled{opacity:.5;cursor:not-allowed}</style>
 </head>
 <body>
 <div id="app">
@@ -106,7 +108,8 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 2
         <button class="s-btn" onclick="begin('自分の強みがわからない')"><span class="s-emoji">✨</span><span class="s-txt">自分の強みがわからない</span></button>
         <button class="s-btn" onclick="begin('やる気が出ない・燃え尽きた')"><span class="s-emoji">⚡</span><span class="s-txt">やる気が出ない・燃え尽きた</span></button>
       </div>
-      <button class="free-btn" onclick="begin(null)">テーマなしで自由に話す →</button>
+      <button class="pay-btn" id="pay-btn" onclick="startCheckout()">🔓 月額¥1,980で始める（サブスク）</button>
+<button class="free-btn" onclick="begin(null)">テーマなしで自由に話す →</button>
       <div class="feats">
         <div class="feat"><span class="feat-ic">◈</span><span class="feat-lb">GROWモデル</span><span class="feat-dc">目標→現状→選択肢→行動</span></div>
         <div class="feat"><span class="feat-ic">◉</span><span class="feat-lb">完全非公開</span><span class="feat-dc">記録・共有されません</span></div>
@@ -166,6 +169,6 @@ ta.addEventListener('blur',function(){iw.classList.remove('focus');});
 ta.addEventListener('compositionstart',function(){composing=true;});
 ta.addEventListener('compositionend',function(){composing=false;});
 ta.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey&&!composing){e.preventDefault();send();}});
-</script>
+function startCheckout(){var btn=document.getElementById('pay-btn');btn.disabled=true;btn.textContent='処理中...';fetch('/api/stripe/checkout',{method:'POST',headers:{'Content-Type':'application/json'}}).then(function(r){return r.json();}).then(function(data){if(data.url){window.location.href=data.url;}else{alert('エラー: '+(data.error||'不明'));btn.disabled=false;btn.textContent='🔓 月額¥1,980で始める（サブスク）';}}).catch(function(e){alert('通信エラー: '+e.message);btn.disabled=false;btn.textContent='🔓 月額¥1,980で始める（サブスク）';});}</script>
 </body>
 </html>
