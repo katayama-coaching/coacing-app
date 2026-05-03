@@ -3,234 +3,172 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>特定商取引法に基づく表記 | AIコーチングアプリ</title>
+  <title>特定商取引法に基づく表記 | INNER COMPASS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600&family=Noto+Sans+JP:wght@300;400;500&display=swap');
-
     :root {
-      --bg: #0f0f0f;
-      --surface: #1a1a1a;
-      --border: #2a2a2a;
-      --text: #e8e8e8;
-      --text-muted: #888;
-      --accent: #c8a96e;
+      --bg: #0f0f13;
+      --surface: #18181f;
+      --border: #2a2a35;
+      --text: #e8e4dc;
+      --text-muted: #8a8690;
+      --accent: #c9a96e;
+      --accent-light: #e8c98a;
+      --white: #f5f2ec;
     }
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Noto Sans JP', sans-serif;
-      font-weight: 300;
-      line-height: 1.8;
-      min-height: 100vh;
-    }
-
-    header {
-      padding: 48px 24px 32px;
-      text-align: center;
-      border-bottom: 1px solid var(--border);
-    }
-
-    header .logo {
-      font-family: 'Noto Serif JP', serif;
-      font-size: 13px;
-      letter-spacing: 0.3em;
-      color: var(--accent);
-      text-transform: uppercase;
-      margin-bottom: 16px;
-    }
-
-    header h1 {
-      font-family: 'Noto Serif JP', serif;
-      font-size: clamp(20px, 4vw, 28px);
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      color: var(--text);
-    }
-
-    main {
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 48px 24px 80px;
-    }
-
-    .intro {
-      font-size: 14px;
-      color: var(--text-muted);
-      margin-bottom: 48px;
-      padding-bottom: 32px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 48px;
-    }
-
-    tr {
-      border-bottom: 1px solid var(--border);
-    }
-
-    th {
-      font-family: 'Noto Serif JP', serif;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--accent);
-      letter-spacing: 0.05em;
-      padding: 20px 16px 20px 0;
-      width: 180px;
-      vertical-align: top;
-      text-align: left;
-    }
-
-    td {
-      font-size: 14px;
-      color: var(--text);
-      padding: 20px 0 20px 16px;
-      vertical-align: top;
-    }
-
-    .section-title {
-      font-family: 'Noto Serif JP', serif;
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--accent);
-      margin: 48px 0 20px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--accent);
-      letter-spacing: 0.05em;
-    }
-
-    .policy-box {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 24px;
-      font-size: 14px;
-      line-height: 2;
-    }
-
-    .policy-box p {
-      margin-bottom: 12px;
-      color: var(--text);
-    }
-
-    .policy-box p:last-child {
-      margin-bottom: 0;
-    }
-
-    .policy-box strong {
-      color: var(--accent);
-      font-weight: 500;
-    }
-
-    footer {
-      text-align: center;
-      padding: 32px 24px;
-      border-top: 1px solid var(--border);
-      font-size: 12px;
-      color: var(--text-muted);
-      letter-spacing: 0.05em;
-    }
-
-    a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
+    body { background: var(--bg); color: var(--text); font-family: 'Noto Sans JP', sans-serif; font-weight: 300; line-height: 1.9; min-height: 100vh; }
+    header { border-bottom: 1px solid var(--border); padding: 24px 40px; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-family: 'Noto Serif JP', serif; font-weight: 300; font-size: 20px; letter-spacing: 0.15em; color: var(--accent); text-decoration: none; }
+    .logo span { font-size: 11px; letter-spacing: 0.3em; color: var(--text-muted); display: block; margin-top: 2px; }
+    .back-link { font-size: 13px; color: var(--text-muted); text-decoration: none; letter-spacing: 0.08em; border: 1px solid var(--border); padding: 8px 18px; border-radius: 20px; transition: all 0.3s; }
+    .back-link:hover { color: var(--accent); border-color: var(--accent); }
+    .page-header { text-align: center; padding: 60px 20px 40px; }
+    .page-header h1 { font-family: 'Noto Serif JP', serif; font-weight: 300; font-size: clamp(22px, 4vw, 32px); letter-spacing: 0.2em; color: var(--white); margin-bottom: 12px; }
+    .page-header p { font-size: 13px; color: var(--text-muted); letter-spacing: 0.1em; }
+    .tabs-container { max-width: 860px; margin: 0 auto; padding: 0 20px 80px; }
+    .tabs { display: flex; gap: 4px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 6px; margin-bottom: 40px; overflow-x: auto; }
+    .tab-btn { flex: 1; min-width: 120px; padding: 10px 16px; background: transparent; border: none; color: var(--text-muted); font-family: 'Noto Sans JP', sans-serif; font-size: 13px; letter-spacing: 0.06em; cursor: pointer; border-radius: 8px; transition: all 0.25s; white-space: nowrap; }
+    .tab-btn.active { background: var(--accent); color: #1a1208; font-weight: 500; }
+    .tab-btn:hover:not(.active) { color: var(--text); background: rgba(201, 169, 110, 0.08); }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .legal-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    .legal-table tr { border-bottom: 1px solid var(--border); }
+    .legal-table tr:last-child { border-bottom: none; }
+    .legal-table th { width: 38%; padding: 18px 20px; font-weight: 400; color: var(--accent); font-size: 13px; letter-spacing: 0.06em; vertical-align: top; text-align: left; background: rgba(201, 169, 110, 0.04); }
+    .legal-table td { padding: 18px 20px; color: var(--text); vertical-align: top; line-height: 1.8; }
+    .legal-table a { color: var(--accent); text-decoration: none; }
+    .prose { font-size: 14px; color: var(--text); line-height: 2; }
+    .prose h2 { font-family: 'Noto Serif JP', serif; font-weight: 400; font-size: 16px; color: var(--accent); letter-spacing: 0.1em; margin-top: 36px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+    .prose h2:first-child { margin-top: 0; }
+    .prose p { margin-bottom: 14px; color: var(--text); }
+    .prose ul { margin: 10px 0 14px 0; padding-left: 0; list-style: none; }
+    .prose ul li { padding: 4px 0 4px 18px; position: relative; color: var(--text); font-size: 14px; }
+    .prose ul li::before { content: '・'; position: absolute; left: 0; color: var(--accent); }
+    .prose a { color: var(--accent); text-decoration: none; }
+    .section-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 32px; margin-bottom: 20px; }
+    .updated-date { font-size: 12px; color: var(--text-muted); margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--border); text-align: right; }
+    footer { border-top: 1px solid var(--border); padding: 24px 40px; text-align: center; font-size: 12px; color: var(--text-muted); letter-spacing: 0.08em; }
     @media (max-width: 600px) {
-      th {
-        width: 120px;
-        font-size: 12px;
-      }
-      td {
-        font-size: 13px;
-      }
+      header { padding: 16px 20px; }
+      .tab-btn { min-width: 90px; font-size: 12px; padding: 9px 10px; }
+      .legal-table th { width: 42%; font-size: 12px; padding: 14px 12px; }
+      .legal-table td { padding: 14px 12px; font-size: 13px; }
+      .section-card { padding: 20px; }
     }
   </style>
 </head>
 <body>
-
   <header>
-    <div class="logo">⚡ AIコーチングアプリ</div>
-    <h1>特定商取引法に基づく表記</h1>
+    <a href="/" class="logo">INNER COMPASS<span>AI COACHING SERVICE</span></a>
+    <a href="/" class="back-link">← サービストップへ</a>
   </header>
-
-  <main>
-    <p class="intro">
-      特定商取引に関する法律第11条に基づき、以下の通り表記いたします。
-    </p>
-
-    <table>
-      <tr>
-        <th>販売業者</th>
-        <td>片山 晋</td>
-      </tr>
-      <tr>
-        <th>所在地</th>
-        <td>〒950-2022<br>新潟県新潟市西区小針1-32-1</td>
-      </tr>
-      <tr>
-        <th>電話番号</th>
-        <td>090-1043-8989<br><span style="font-size:12px;color:#888">※お問い合わせはメールにてお願いいたします</span></td>
-      </tr>
-      <tr>
-        <th>メールアドレス</th>
-        <td><a href="mailto:freakers.s.k@gmail.com">freakers.s.k@gmail.com</a></td>
-      </tr>
-      <tr>
-        <th>サービス名</th>
-        <td>AIコーチングアプリ（筋力と体格管理）</td>
-      </tr>
-      <tr>
-        <th>販売価格</th>
-        <td>月額 ¥1,980（税込）</td>
-      </tr>
-      <tr>
-        <th>支払い方法</th>
-        <td>クレジットカード（Visa・Mastercard・American Express・JCB）</td>
-      </tr>
-      <tr>
-        <th>支払い時期</th>
-        <td>お申し込み時に即時課金。以降、毎月同日に自動更新・課金されます。</td>
-      </tr>
-      <tr>
-        <th>サービス提供時期</th>
-        <td>お支払い完了後、即時ご利用いただけます。</td>
-      </tr>
-      <tr>
-        <th>動作環境</th>
-        <td>インターネット接続環境が必要です。最新のWebブラウザをご利用ください。</td>
-      </tr>
-    </table>
-
-    <div class="section-title">キャンセル・返金ポリシー</div>
-    <div class="policy-box">
-      <p><strong>【解約について】</strong><br>
-      いつでもマイページよりサブスクリプションを解約することができます。解約手続きは当月中にお願いいたします。解約後は次回の請求が停止され、当月末まではサービスをご利用いただけます。</p>
-
-      <p><strong>【返金について】</strong><br>
-      デジタルコンテンツの性質上、原則として返金はお受けしておりません。ただし、システム障害や当方の重大な過失によりサービスをご利用いただけなかった場合は、個別にご対応いたします。</p>
-
-      <p><strong>【無料トライアル期間中の解約】</strong><br>
-      無料トライアル期間中に解約された場合、料金は一切発生しません。</p>
-
-      <p><strong>【お問い合わせ】</strong><br>
-      解約・返金に関するご相談は <a href="mailto:freakers.s.k@gmail.com">freakers.s.k@gmail.com</a> までご連絡ください。</p>
+  <div class="page-header">
+    <h1>特定商取引法に基づく表記</h1>
+    <p>Legal Information / Terms &amp; Privacy</p>
+  </div>
+  <div class="tabs-container">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="showTab('tokushoho',this)">特定商取引法</button>
+      <button class="tab-btn" onclick="showTab('terms',this)">利用規約</button>
+      <button class="tab-btn" onclick="showTab('privacy',this)">プライバシーポリシー</button>
+      <button class="tab-btn" onclick="showTab('subscription',this)">サブスク規約</button>
     </div>
-
-  </main>
-
-  <footer>
-    &copy; 2026 片山 晋 / AIコーチングアプリ. All rights reserved.
-  </footer>
-
+    <div id="tokushoho" class="tab-content active">
+      <div class="section-card">
+        <table class="legal-table">
+          <tr><th>販売事業者名</th><td>クリエートプラス</td></tr>
+          <tr><th>運営責任者</th><td>片山晋</td></tr>
+          <tr><th>所在地</th><td>請求があった場合に遅滞なく開示いたします。</td></tr>
+          <tr><th>電話番号</th><td>請求があった場合に遅滞なく開示いたします。</td></tr>
+          <tr><th>メールアドレス</th><td><a href="mailto:ookura6882@gmail.com">ookura6882@gmail.com</a></td></tr>
+          <tr><th>サービス名</th><td>INNER COMPASS（AIコーチングサービス）</td></tr>
+          <tr><th>販売価格</th><td>月額 ¥1,980（税込）<br>※ 7日間無料トライアルあり</td></tr>
+          <tr><th>支払方法</th><td>クレジットカード決済（Stripe）</td></tr>
+          <tr><th>支払時期</th><td>無料トライアル終了後、毎月自動更新</td></tr>
+          <tr><th>引渡時期</th><td>決済完了後すぐにご利用いただけます。</td></tr>
+          <tr><th>解約方法</th><td>サービス内「契約内容・請求を管理する」ボタンから、次回更新日の前日までにご自身でキャンセル手続きをお願いいたします。<br><br>解約後は当月末まで引き続きご利用いただけます。</td></tr>
+          <tr><th>返品・返金</th><td>サービスの性質上、支払い後の返金は承っておりません。</td></tr>
+          <tr><th>注意書き</th><td>効果には個人差があります。</td></tr>
+          <tr><th>免責</th><td>本サービスは医療・法律・投資アドバイスではありません。</td></tr>
+        </table>
+        <p class="updated-date">最終更新：2026年5月</p>
+      </div>
+    </div>
+    <div id="terms" class="tab-content">
+      <div class="section-card">
+        <div class="prose">
+          <p>本利用規約（以下「本規約」といいます）は、クリエートプラス（以下「当社」といいます）が提供するAIコーチングサービス「INNER COMPASS」（以下「本サービス」といいます）の利用条件を定めるものです。</p>
+          <h2>第1条（適用）</h2><p>本規約は、本サービスの利用に関する一切の関係に適用されます。</p>
+          <h2>第2条（利用登録）</h2><p>ユーザーは、本規約に同意の上、本サービスを利用するものとします。</p>
+          <h2>第3条（サービス内容）</h2><p>本サービスは、AIによるコーチング対話を通じて、思考整理・自己理解・行動支援を目的としたサービスです。</p>
+          <h2>第4条（禁止事項）</h2>
+          <p>ユーザーは以下の行為を行ってはなりません。</p>
+          <ul>
+            <li>法令または公序良俗に違反する行為</li>
+            <li>不正アクセスやサービスの妨害</li>
+            <li>他ユーザーへの迷惑行為</li>
+            <li>虚偽情報の登録</li>
+            <li>その他当社が不適切と判断する行為</li>
+          </ul>
+          <h2>第5条（免責事項）</h2><p>本サービスは、医療・法律・投資等の専門的助言を提供するものではありません。また、本サービスの利用による成果について、当社は一切の保証を行いません。</p>
+          <h2>第6条（サービスの変更・停止）</h2><p>当社は、事前の通知なく本サービスの内容変更・停止を行うことができます。</p>
+          <h2>第7条（利用停止）</h2><p>ユーザーが本規約に違反した場合、当社は事前通知なく利用停止できるものとします。</p>
+          <h2>第8条（規約の変更）</h2><p>当社は必要に応じて本規約を変更できるものとします。</p>
+          <h2>第9条（準拠法）</h2><p>本規約は日本法に準拠します。</p>
+        </div>
+        <p class="updated-date">最終更新：2026年5月</p>
+      </div>
+    </div>
+    <div id="privacy" class="tab-content">
+      <div class="section-card">
+        <div class="prose">
+          <p>クリエートプラスは、ユーザーの個人情報を以下の方針に基づき適切に取り扱います。</p>
+          <h2>1. 取得する情報</h2>
+          <ul><li>メールアドレス</li><li>利用履歴</li><li>入力されたテキスト情報（コーチング内容）</li></ul>
+          <h2>2. 利用目的</h2>
+          <ul><li>サービス提供および改善</li><li>ユーザーサポート</li><li>不正防止</li></ul>
+          <h2>3. 情報の管理</h2><p>取得した情報は適切に管理し、不正アクセスや漏洩防止に努めます。</p>
+          <h2>4. 第三者提供</h2><p>法令に基づく場合を除き、第三者に提供しません。</p>
+          <h2>5. 外部サービス</h2><p>決済にはStripeを利用します。各サービスのプライバシーポリシーもご確認ください。</p>
+          <h2>6. ユーザーの権利</h2><p>ユーザーは自身の情報の開示・訂正・削除を求めることができます。</p>
+          <h2>7. お問い合わせ</h2><p><a href="mailto:ookura6882@gmail.com">ookura6882@gmail.com</a></p>
+        </div>
+        <p class="updated-date">最終更新：2026年5月</p>
+      </div>
+    </div>
+    <div id="subscription" class="tab-content">
+      <div class="section-card">
+        <div class="prose">
+          <h2>1. 料金</h2><p>本サービスは月額 <strong>¥1,980（税込）</strong> で提供されます。</p>
+          <h2>2. 無料トライアル</h2><p>初回登録時に <strong>7日間の無料トライアル</strong> をご利用いただけます。トライアル期間中はいつでも解約可能で、期間内に解約された場合は料金は発生しません。</p>
+          <h2>3. 支払方法</h2><p>Stripeによるクレジットカード決済</p>
+          <h2>4. 更新</h2><p>サブスクリプションは毎月自動更新されます。</p>
+          <h2>5. 解約</h2>
+          <p>ユーザーはいつでも解約可能です。サービス内「契約内容・請求を管理する」ボタンから、<strong>次回更新日の前日まで</strong>にご自身でキャンセル手続きをお願いいたします。</p>
+          <p>解約後は当月末まで引き続きご利用いただけます。</p>
+          <h2>6. 返金</h2><p>サービスの性質上、支払い後の返金は承っておりません。</p>
+          <h2>7. サービス変更</h2><p>内容・価格は事前にお知らせの上、変更される場合があります。</p>
+        </div>
+        <p class="updated-date">最終更新：2026年5月</p>
+      </div>
+    </div>
+  </div>
+  <footer>&copy; 2026 クリエートプラス / INNER COMPASS. All rights reserved.</footer>
+  <script>
+    function showTab(id, btn) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      btn.classList.add('active');
+    }
+    const hash = window.location.hash.replace('#', '');
+    if (hash && document.getElementById(hash)) {
+      const idx = ['tokushoho','terms','privacy','subscription'].indexOf(hash);
+      if (idx >= 0) showTab(hash, document.querySelectorAll('.tab-btn')[idx]);
+    }
+  </script>
 </body>
 </html>
