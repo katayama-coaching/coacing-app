@@ -25,6 +25,7 @@ module.exports = async (req, res) => {
       subscription_data: {
         trial_period_days: 7,
       },
+      // session_id と customer をURLに含める
       success_url: `https://coacing-app.vercel.app/?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `https://coacing-app.vercel.app/`,
     });
