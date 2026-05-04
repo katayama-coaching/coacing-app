@@ -9,23 +9,13 @@ module.exports = async (req, res) => {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [{
-        price_data: {
-          currency: 'jpy',
-          product_data: {
-            name: 'AIコーチングアプリ',
-          },
-          unit_amount: 1980,
-          recurring: {
-            interval: 'month',
-          },
-        },
+        price: 'price_1TSXbDGTYiij3LucYP9qbYQY',
         quantity: 1,
       }],
       mode: 'subscription',
       subscription_data: {
         trial_period_days: 7,
       },
-      // session_id と customer をURLに含める
       success_url: `https://coacing-app.vercel.app/?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `https://coacing-app.vercel.app/`,
     });
