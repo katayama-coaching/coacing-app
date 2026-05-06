@@ -187,8 +187,7 @@ function openPortal(){
 function callAPI(history){
   var cleaned=[];
   for(var i=0;i<history.length;i++){var m=history[i];if(m&&m.role&&typeof m.content==='string'&&m.content.trim()){cleaned.push({role:m.role,content:m.content.trim()});}}
-  return fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:cleaned,system:SYSTEM})}).then(function(r){return r.json().then(function(data){if(!r.ok)throw new Error(data&&data.error?data.error:'HTTP '+r.status);return data.reply;});});
-}
+ var isSubscribed=!!localStorage.getItem('stripe_customer_id');return fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:cleaned,system:SYSTEM,isSubscribed:isSubscribed,exchanges:exchanges})}).then(function(r){return r.json();})
 function showErr(msg){document.getElementById('err-msg').textContent=msg;document.getElementById('err-bar').style.display='flex';}
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');}
 function updateMeta(){var lbl=PHASES[Math.min(exchanges,PHASES.length-1)]||'セッション継続中';document.getElementById('phase-lbl').textContent=lbl;document.getElementById('exch-lbl').textContent=exchanges>0?exchanges+'往復':'開始前';document.getElementById('prog').style.width=Math.min((exchanges/6)*100,100)+'%';}
