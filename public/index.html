@@ -169,8 +169,9 @@ var msgs=[],busy=false,sesN=0,exchanges=0,composing=false;
 function showPortalBtn(){
   var btn=document.getElementById('portal-btn');
   if(btn)btn.style.display='block';
+  var payBtn=document.getElementById('pay-btn');
+  if(payBtn)payBtn.style.display='none';
 }
-
 function openPortal(){
   var customerId=localStorage.getItem('stripe_customer_id');
   if(!customerId){alert('お客様情報が見つかりません。\nサポート: ookura6882@gmail.com');return;}
