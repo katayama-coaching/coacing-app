@@ -156,6 +156,7 @@ var msgs=[],busy=false,sesN=0,exchanges=0,composing=false;
       .then(function(data){
         if(data.customerId){
           localStorage.setItem('stripe_customer_id',data.customerId);
+       　 localStorage.removeItem('total_exchanges');
           showPortalBtn();
         }
       })
