@@ -113,7 +113,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 2
         <button class="s-btn" onclick="begin('やる気が出ない・燃え尽きた')"><span class="s-emoji">⚡</span><span class="s-txt">やる気が出ない・燃え尽きた</span></button>
       </div>
       <button class="pay-btn" id="pay-btn" onclick="startCheckout()">🪙 月額¥1,980で始める</button>
-　　　<p style="text-align:center;font-size:11px;color:#c8a96e;margin-bottom:10px;">まずは登録不要で3回まで無料でお試しいただけます</p>
+      <p style="text-align:center;font-size:11px;color:#c8a96e;margin-bottom:10px;">まずは登録不要で3日間無料でお試しいただけます</p>
       <button class="portal-btn" id="portal-btn" style="display:none" onclick="openPortal()">⚙️ 契約内容・解約・請求を管理する</button>
       <button class="free-btn" onclick="begin(null)">テーマなしで自由に話す →</button>
       <div class="feats">
@@ -126,7 +126,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 2
   <div id="chat">
     <div class="chat-meta">
       <div class="meta-left"><div class="status-dot"></div><span class="meta-lbl" id="phase-lbl">セッション開始</span></div>
-      <span class="meta-right" id="exch-lbl">0往復</span>
+      <span class="meta-right" id="exch-lbl"></span>
     </div>
     <div class="progress-track"><div class="progress-fill" id="prog" style="width:0%"></div></div>
     <div class="msgs" id="msgs"></div>
@@ -146,6 +146,22 @@ var SYSTEM='あなたは一流のエグゼクティブコーチです。答え�
 var QUICK=['もう少し深く掘り下げてください','具体的な例を挙げると…','正直に言うと…','一番大切なのは…'];
 var PHASES=['','最初の一歩','深まってきた','核心に近づいている','重要な気づき','本質が見えてきた'];
 var msgs=[],busy=false,sesN=0,exchanges=0,composing=false;
+if(!localStorage.getItem('trial_start_date')){
+  localStorage.setItem('trial_start_date',Date.now().toString());
+}
+function isTrialActive(){
+  if(localStorage.getItem('stripe_customer_id'))return true;
+  var elapsed=Date.now()-parseInt(localStorage.getItem('trial_start_date')||'0');
+  return elapsed<3*24*60*60*1000;
+}
+function getTrialRemainingText(){
+  var elapsed=Date.now()-parseInt(localStorage.getItem('trial_start_date')||'0');
+  var remaining=(3*24*60*60*1000)-elapsed;
+  var hours=Math.floor(remaining/(60*60*1000));
+  if(hours>=24)return 'トライアル残り'+Math.floor(hours/24)+'日';
+  if(hours>0)return 'トライアル残り'+hours+'時間';
+  return 'トライアル終了';
+}
 (function(){
   var params=new URLSearchParams(window.location.search);
   var sessionId=params.get('session_id');
@@ -155,7 +171,7 @@ var msgs=[],busy=false,sesN=0,exchanges=0,composing=false;
       .then(function(data){
         if(data.customerId){
           localStorage.setItem('stripe_customer_id',data.customerId);
-          localStorage.removeItem('total_exchanges');
+          localStorage.removeItem('trial_start_date');
           showPortalBtn();
         }
       })
@@ -166,10 +182,10 @@ var msgs=[],busy=false,sesN=0,exchanges=0,composing=false;
 })();
 function showPortalBtn(){var btn=document.getElementById('portal-btn');if(btn)btn.style.display='block';var payBtn=document.getElementById('pay-btn');if(payBtn)payBtn.style.display='none';}
 function openPortal(){var customerId=localStorage.getItem('stripe_customer_id');if(!customerId){alert('お客様情報が見つかりません。\nサポート: ookura6882@gmail.com');return;}var btn=document.getElementById('portal-btn');btn.disabled=true;btn.textContent='読み込み中...';fetch('/api/stripe/portal',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({customerId:customerId})}).then(function(r){return r.json();}).then(function(data){if(data.url){window.location.href=data.url;}else{alert('エラー: '+(data.error||'不明'));btn.disabled=false;btn.textContent='⚙️ 契約内容・解約・請求を管理する';}}).catch(function(e){alert('通信エラー: '+e.message);btn.disabled=false;btn.textContent='⚙️ 契約内容・解約・請求を管理する';});}
-function callAPI(history){var cleaned=[];for(var i=0;i<history.length;i++){var m=history[i];if(m&&m.role&&typeof m.content==='string'&&m.content.trim()){cleaned.push({role:m.role,content:m.content.trim()});}}var isSubscribed=!!localStorage.getItem('stripe_customer_id');return fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:cleaned,system:SYSTEM,isSubscribed:isSubscribed,exchanges:exchanges})}).then(function(r){return r.json();}).then(function(data){return data.reply;})}
+function callAPI(history){var cleaned=[];for(var i=0;i<history.length;i++){var m=history[i];if(m&&m.role&&typeof m.content==='string'&&m.content.trim()){cleaned.push({role:m.role,content:m.content.trim()});}}var isSubscribed=!!localStorage.getItem('stripe_customer_id');return fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:cleaned,system:SYSTEM,isSubscribed:isSubscribed,trialStartDate:localStorage.getItem('trial_start_date')})}).then(function(r){return r.json();}).then(function(data){return data.reply;})}
 function showErr(msg){document.getElementById('err-msg').textContent=msg;document.getElementById('err-bar').style.display='flex';}
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');}
-function updateMeta(){var lbl=PHASES[Math.min(exchanges,PHASES.length-1)]||'セッション継続中';document.getElementById('phase-lbl').textContent=lbl;document.getElementById('exch-lbl').textContent=exchanges>0?exchanges+'往復':'開始前';document.getElementById('prog').style.width=Math.min((exchanges/6)*100,100)+'%';}
+function updateMeta(){var lbl=PHASES[Math.min(exchanges,PHASES.length-1)]||'セッション継続中';document.getElementById('phase-lbl').textContent=lbl;var isSubscribed=!!localStorage.getItem('stripe_customer_id');document.getElementById('exch-lbl').textContent=isSubscribed?'':getTrialRemainingText();document.getElementById('prog').style.width=Math.min((exchanges/6)*100,100)+'%';}
 function removeQuicks(){var qs=document.querySelectorAll('.quick-row');for(var i=0;i<qs.length;i++)qs[i].remove();}
 function appendMsg(role,content,showQuick){var wrap=document.getElementById('msgs');var d=document.createElement('div');if(role==='user'){d.className='row-u';d.innerHTML='<div class="bu">'+esc(content)+'</div>';}else{d.className='row-a';var qhtml='';if(showQuick){qhtml='<div class="quick-row">';for(var i=0;i<QUICK.length;i++){qhtml+='<button class="qbtn" onclick="quickSend(\''+QUICK[i].replace(/'/g,"\\'")+'\')">'+ esc(QUICK[i])+'</button>';}qhtml+='</div>';}d.innerHTML='<div class="av">C</div><div class="asst-col"><div class="ba">'+esc(content)+'</div>'+qhtml+'</div>';}wrap.appendChild(d);wrap.scrollTop=wrap.scrollHeight;}
 function showTyping(){var wrap=document.getElementById('msgs');var d=document.createElement('div');d.id='typing';d.className='row-a';d.innerHTML='<div class="av">C</div><div class="dots-wrap"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>';wrap.appendChild(d);wrap.scrollTop=wrap.scrollHeight;}
@@ -177,8 +193,13 @@ function hideTyping(){var el=document.getElementById('typing');if(el)el.remove()
 function setBusy(b){busy=b;if(b)showTyping();else hideTyping();updateSendBtn();}
 function updateSendBtn(){document.getElementById('send-btn').disabled=!document.getElementById('ta').value.trim()||busy;}
 function resetApp(){msgs=[];exchanges=0;busy=false;document.getElementById('msgs').innerHTML='';document.getElementById('welcome').style.display='flex';document.getElementById('chat').style.display='none';document.getElementById('new-btn').style.display='none';document.getElementById('ses-tag').style.display='none';document.getElementById('err-bar').style.display='none';document.getElementById('ta').value='';updateSendBtn();}
-function begin(topic){sesN++;msgs=[];exchanges=parseInt(localStorage.getItem('total_exchanges')||'0');document.getElementById('welcome').style.display='none';document.getElementById('chat').style.display='flex';document.getElementById('new-btn').style.display='block';document.getElementById('ses-tag').textContent='Session #'+sesN;document.getElementById('ses-tag').style.display='block';document.getElementById('ta').focus();if(topic)quickSend(topic);}
-function send(textOverride){var isSubscribed=!!localStorage.getItem('stripe_customer_id');if(!isSubscribed&&exchanges>=3){document.getElementById('msgs').innerHTML+='<div class="row-a"><div class="av">C</div><div class="msg-wrap"><div class="msg">3回の無料体験が終了しました。<br>続けてご利用いただくには、サブスクリプション登録が必要です。<br><br><button onclick="startCheckout()" style="background:#c8a96e;color:#0d0d14;border:none;padding:12px 24px;border-radius:8px;font-size:14px;cursor:pointer;font-weight:700;">今すぐ登録する（月額¥1,980）</button></div></div></div>';return;}var text=(textOverride||document.getElementById('ta').value).trim();if(!text||busy)return;removeQuicks();document.getElementById('ta').value='';document.getElementById('ta').style.height='auto';updateSendBtn();msgs.push({role:'user',content:text});appendMsg('user',text);setBusy(true);callAPI(msgs).then(function(reply){msgs.push({role:'assistant',content:reply});appendMsg('assistant',reply,true);exchanges++;localStorage.setItem('total_exchanges',exchanges);updateMeta();setBusy(false);document.getElementById('ta').focus();}).catch(function(e){showErr(e.message);setBusy(false);});}
+function begin(topic){sesN++;msgs=[];exchanges=0;document.getElementById('welcome').style.display='none';document.getElementById('chat').style.display='flex';document.getElementById('new-btn').style.display='block';document.getElementById('ses-tag').textContent='Session #'+sesN;document.getElementById('ses-tag').style.display='block';document.getElementById('ta').focus();updateMeta();if(topic)quickSend(topic);}
+function send(textOverride){
+  if(!isTrialActive()){
+    document.getElementById('msgs').innerHTML+='<div class="row-a"><div class="av">C</div><div class="asst-col"><div class="ba">3日間のトライアルが終了しました。<br>続けてご利用いただくには、サブスクリプション登録が必要です。<br><br><button onclick="startCheckout()" style="background:#c8a96e;color:#0d0d14;border:none;padding:12px 24px;border-radius:8px;font-size:14px;cursor:pointer;font-weight:700;">今すぐ登録する（月額¥1,980）</button></div></div></div>';
+    return;
+  }
+  var text=(textOverride||document.getElementById('ta').value).trim();if(!text||busy)return;removeQuicks();document.getElementById('ta').value='';document.getElementById('ta').style.height='auto';updateSendBtn();msgs.push({role:'user',content:text});appendMsg('user',text);setBusy(true);callAPI(msgs).then(function(reply){msgs.push({role:'assistant',content:reply});appendMsg('assistant',reply,true);exchanges++;updateMeta();setBusy(false);document.getElementById('ta').focus();}).catch(function(e){showErr(e.message);setBusy(false);});}
 function quickSend(text){send(text);}
 var ta=document.getElementById('ta');var iw=document.getElementById('iw');
 ta.addEventListener('input',function(){ta.style.height='auto';ta.style.height=Math.min(ta.scrollHeight,130)+'px';document.getElementById('char-lbl').textContent=ta.value.length>0?ta.value.length+'文字':'Shift+Enter で改行';updateSendBtn();});
