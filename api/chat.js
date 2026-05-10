@@ -27,7 +27,7 @@ if (!isSubscribed) {
       },
       body: JSON.stringify({
         model: 'claude-opus-4-5',
-        max_tokens: isSubscribed ? 1000 : 300,  // 未登録は短く
+       max_tokens: 1000,
         system: effectiveSystem,
         messages: messages,
       }),
