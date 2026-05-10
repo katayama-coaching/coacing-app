@@ -211,7 +211,7 @@ ta.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey&&!comp
 function startCheckout(){var btn=document.getElementById('pay-btn');btn.disabled=true;btn.textContent='処理中...';fetch('/api/stripe/checkout',{method:'POST',headers:{'Content-Type':'application/json'}}).then(function(r){return r.json();}).then(function(data){if(data.url){window.location.href=data.url;}else{alert('エラー: '+(data.error||'不明'));btn.disabled=false;btn.textContent='🪙 月額¥1,980で始める';}}).catch(function(e){alert('通信エラー: '+e.message);btn.disabled=false;btn.textContent='🪙 月額¥1,980で始める';});}
 </script>
 <div style="text-align:center;padding:20px;border-top:1px solid #1e1e30;margin-top:10px">
-  <a href="/tokushoho.html" style="font-size:11px;color:#3a3848;text-decoration:none;letter-spacing:.08em;"
+  <a href="/tokushoho.html" style="font-size:11px;color:#5a8fa8;text-decoration:none;letter-spacing:.08em;"
     特定商取引法に基づく表記 / 利用規約 / プライバシーポリシー
   </a>
 </div></body>
