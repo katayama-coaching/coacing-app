@@ -3,13 +3,16 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
   try {
-    const { messages, system, isSubscribed, exchanges } = req.body;
+   const { messages, system, isSubscribed, trialStartDate } = req.body;
 
-    // サーバー側の二重チェック（未登録ユーザーが3往復超えたらブロック）
-    if (!isSubscribed && exchanges >= 3) {
-      return res.status(403).json({ error: 'free_limit_reached' });
-    }
-
+// サーバー側の二重チェック（トライアル期限切れならブロック）
+if (!isSubscribed) {
+  const elapsed = Date.now() - parseInt(trialStartDate || '0');
+  const threeDays = 3 * 24 * 60 * 60 * 1000;
+  if (elapsed >= threeDays) {
+    return res.status(403).json({ error: 'trial_expired' });
+  }
+}
     // 未登録ユーザー用のシステムプロンプト制約を追加
     const effectiveSystem = isSubscribed
       ? system
