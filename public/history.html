@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>セッション履歴 - INNER COMPASS</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:#0d0d14;color:#e8e4dc;font-family:'Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo',sans-serif;min-height:100vh}
+    header{display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:52px;border-bottom:1px solid #1e1e30;background:#0d0d14;position:sticky;top:0;z-index:50}
+    .logo{display:flex;align-items:center;gap:9px}
+    .logo-box{width:24px;height:24px;border-radius:6px;background:#c8a96e;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#0a0a0f}
+    .logo-name{font-size:12px;font-weight:700;letter-spacing:.18em;color:#e8e4dc}
+    .back-btn{background:none;border:1px solid #2a2a3e;color:#7a7880;font-size:11px;cursor:pointer;padding:5px 13px;border-radius:20px;font-family:inherit;text-decoration:none;display:inline-block}
+    .container{max-width:680px;margin:0 auto;padding:28px 20px 60px}
+    h1{font-size:18px;font-weight:700;color:#e8e4dc;margin-bottom:6px}
+    .subtitle{font-size:12px;color:#5a5868;margin-bottom:28px}
+    .empty{text-align:center;padding:80px 20px;color:#5a5868;font-size:14px;line-height:2}
+    .session-list{display:flex;flex-direction:column;gap:10px}
+    .session-card{background:#111120;border:1px solid #1e1e30;border-radius:12px;padding:16px 18px;cursor:pointer;transition:border-color .15s,background .15s}
+    .session-card:hover{border-color:rgba(200,169,110,.4);background:rgba(200,169,110,.05)}
+    .session-card.active{border-color:rgba(200,169,110,.6);background:rgba(200,169,110,.08)}
+    .card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+    .card-date{font-size:11px;color:#5a5868}
+    .card-count{font-size:11px;color:#3a3848}
+    .card-topic{font-size:14px;color:#e8e4dc;line-height:1.4}
+    .detail{display:none;margin-top:28px;border-top:1px solid #1e1e30;padding-top:24px}
+    .detail.visible{display:block}
+    .detail-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;gap:12px}
+    .detail-date{font-size:12px;color:#c8a96e;margin-bottom:4px}
+    .detail-topic{font-size:15px;color:#e8e4dc;font-weight:600}
+    .close-btn{background:none;border:1px solid #2a2a3e;color:#7a7880;font-size:11px;padding:5px 12px;border-radius:20px;cursor:pointer;font-family:inherit;white-space:nowrap;flex-shrink:0}
+    .messages{display:flex;flex-direction:column;gap:12px}
+    .msg-user{display:flex;justify-content:flex-end}
+    .msg-asst{display:flex;align-items:flex-start;gap:8px}
+    .av{width:28px;height:28px;border-radius:50%;background:#c8a96e;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#0a0a0f;flex-shrink:0}
+    .bubble-user{background:#161628;border:1px solid #252538;border-radius:13px 13px 3px 13px;padding:10px 14px;max-width:80%;font-size:13px;line-height:1.8;color:#e8e4dc;white-space:pre-wrap;word-break:break-word}
+    .bubble-asst{background:#111120;border:1px solid #1e1e30;border-radius:3px 13px 13px 13px;padding:11px 15px;font-size:13px;line-height:1.85;color:#e8e4dc;white-space:pre-wrap;word-break:break-word}
+    .delete-btn{margin-top:20px;background:none;border:1px solid rgba(240,92,92,.3);color:rgba(240,92,92,.6);font-size:11px;padding:6px 14px;border-radius:20px;cursor:pointer;font-family:inherit}
+    .delete-btn:hover{border-color:rgba(240,92,92,.6);color:#f05c5c}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <div class="logo-box">C</div>
+      <span class="logo-name">INNER COMPASS</span>
+    </div>
+    <a href="/" class="back-btn">← コーチングに戻る</a>
+  </header>
+
+  <div class="container">
+    <h1>📖 セッション履歴</h1>
+    <p class="subtitle">過去のコーチングセッションを読み返せます</p>
+
+    <div id="empty" class="empty" style="display:none">
+      まだ記録がありません。<br>コーチングを終了すると自動的に保存されます。
+    </div>
+
+    <div class="session-list" id="session-list"></div>
+
+    <div class="detail" id="detail">
+      <div class="detail-header">
+        <div>
+          <div class="detail-date" id="detail-date"></div>
+          <div class="detail-topic" id="detail-topic"></div>
+        </div>
+        <button class="close-btn" onclick="closeDetail()">✕ 閉じる</button>
+      </div>
+      <div class="messages" id="detail-messages"></div>
+      <button class="delete-btn" id="delete-btn" onclick="deleteSession()">このセッションを削除</button>
+    </div>
+  </div>
+
+  <script>
+    var sessions = JSON.parse(localStorage.getItem('coaching_history') || '[]');
+    var currentId = null;
+
+    function render() {
+      var list = document.getElementById('session-list');
+      list.innerHTML = '';
+
+      if (sessions.length === 0) {
+        document.getElementById('empty').style.display = 'block';
+        return;
+      }
+
+      sessions.forEach(function(s) {
+        var card = document.createElement('div');
+        card.className = 'session-card' + (s.id === currentId ? ' active' : '');
+        card.dataset.id = s.id;
+        var turns = Math.floor(s.messages.length / 2);
+        card.innerHTML =
+          '<div class="card-top">' +
+            '<span class="card-date">' + s.date + '</span>' +
+            '<span class="card-count">' + turns + 'ターン</span>' +
+          '</div>' +
+          '<div class="card-topic">' + esc(s.topic) + '</div>';
+        card.addEventListener('click', function() { openDetail(s.id); });
+        list.appendChild(card);
+      });
+    }
+
+    function openDetail(id) {
+      currentId = id;
+      var s = sessions.find(function(x) { return x.id === id; });
+      if (!s) return;
+
+      document.getElementById('detail-date').textContent = s.date;
+      document.getElementById('detail-topic').textContent = s.topic;
+
+      var msgsEl = document.getElementById('detail-messages');
+      msgsEl.innerHTML = '';
+      s.messages.forEach(function(m) {
+        var d = document.createElement('div');
+        if (m.role === 'user') {
+          d.className = 'msg-user';
+          d.innerHTML = '<div class="bubble-user">' + esc(m.content) + '</div>';
+        } else {
+          d.className = 'msg-asst';
+          d.innerHTML = '<div class="av">C</div><div class="bubble-asst">' + esc(m.content) + '</div>';
+        }
+        msgsEl.appendChild(d);
+      });
+
+      document.getElementById('detail').classList.add('visible');
+      document.getElementById('detail').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      render();
+    }
+
+    function closeDetail() {
+      currentId = null;
+      document.getElementById('detail').classList.remove('visible');
+      render();
+    }
+
+    function deleteSession() {
+      if (!currentId) return;
+      if (!confirm('このセッションを削除しますか？')) return;
+      sessions = sessions.filter(function(s) { return s.id !== currentId; });
+      localStorage.setItem('coaching_history', JSON.stringify(sessions));
+      currentId = null;
+      document.getElementById('detail').classList.remove('visible');
+      render();
+    }
+
+    function esc(s) {
+      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+    }
+
+    render();
+  </script>
+</body>
+</html>
