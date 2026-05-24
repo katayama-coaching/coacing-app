@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>今日の運勢 ✨</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+      background: #0a0015;
+      color: #fff;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 24px 16px 48px;
+    }
+
+    header {
+      text-align: center;
+      padding: 24px 0 32px;
+    }
+
+    header .moon { font-size: 48px; }
+
+    header h1 {
+      font-size: 26px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #c9a0ff, #ffc8f0, #ffe8a0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-top: 8px;
+    }
+
+    header p { font-size: 13px; color: #9980cc; margin-top: 6px; }
+
+    .back-link {
+      display: inline-block;
+      color: #9980cc;
+      font-size: 13px;
+      text-decoration: none;
+      margin-bottom: 20px;
+    }
+
+    .back-link:before { content: '← '; }
+
+    .section-title {
+      font-size: 13px;
+      color: #9980cc;
+      letter-spacing: 2px;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .zodiac-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .zodiac-btn {
+      background: rgba(255,255,255,0.05);
+      border: 1.5px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 12px 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      color: #ccc;
+      font-size: 11px;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .zodiac-btn .emoji { font-size: 24px; }
+    .zodiac-btn.selected {
+      background: rgba(180,120,255,0.25);
+      border-color: #c9a0ff;
+      color: #fff;
+      box-shadow: 0 0 12px rgba(180,120,255,0.4);
+    }
+
+    .cta-btn {
+      width: 100%;
+      padding: 18px;
+      background: linear-gradient(135deg, #7c3aed, #c026d3);
+      border: none;
+      border-radius: 20px;
+      color: #fff;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: 2px;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .cta-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .loading { display: none; text-align: center; padding: 48px 16px; }
+    .loading.visible { display: block; }
+
+    .spinner {
+      width: 48px; height: 48px;
+      border: 3px solid rgba(180,120,255,0.2);
+      border-top-color: #c9a0ff;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 16px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading p { color: #9980cc; font-size: 14px; }
+
+    .result { display: none; }
+    .result.visible { display: block; }
+
+    .result-header { text-align: center; margin: 32px 0 24px; }
+    .result-header .sign-emoji { font-size: 56px; }
+    .result-header h2 { font-size: 22px; color: #e9d5ff; margin-top: 8px; }
+    .result-header .date { font-size: 12px; color: #9980cc; margin-top: 4px; }
+
+    .card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 14px;
+    }
+
+    .card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .card-icon { font-size: 22px; }
+    .card-label { font-size: 13px; color: #9980cc; flex: 1; }
+    .stars-row { display: flex; gap: 3px; }
+    .star-icon { font-size: 16px; opacity: 0.25; }
+    .star-icon.lit { opacity: 1; }
+    .card-message { font-size: 15px; line-height: 1.7; color: #e9d5ff; }
+
+    .lucky-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+
+    .lucky-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 20px 16px;
+      text-align: center;
+    }
+
+    .lucky-card .lucky-icon { font-size: 28px; margin-bottom: 8px; }
+    .lucky-card .lucky-label { font-size: 11px; color: #9980cc; margin-bottom: 6px; }
+    .lucky-card .lucky-value { font-size: 22px; font-weight: 700; color: #ffc8f0; }
+
+    .advice-card {
+      background: linear-gradient(135deg, rgba(124,58,237,0.3), rgba(192,38,211,0.3));
+      border: 1px solid rgba(180,120,255,0.3);
+      border-radius: 20px;
+      padding: 20px;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .advice-card .advice-icon { font-size: 28px; margin-bottom: 8px; }
+    .advice-card .advice-label { font-size: 11px; color: #c9a0ff; margin-bottom: 8px; letter-spacing: 2px; }
+    .advice-card .advice-text { font-size: 16px; line-height: 1.7; color: #fff; font-weight: 500; }
+
+    .retry-btn {
+      width: 100%;
+      padding: 16px;
+      background: transparent;
+      border: 1.5px solid rgba(180,120,255,0.4);
+      border-radius: 20px;
+      color: #c9a0ff;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    .error-msg {
+      display: none;
+      background: rgba(239,68,68,0.15);
+      border: 1px solid rgba(239,68,68,0.3);
+      border-radius: 14px;
+      padding: 16px;
+      text-align: center;
+      color: #fca5a5;
+      font-size: 14px;
+      margin-top: 16px;
+    }
+
+    .error-msg.visible { display: block; }
+
+    /* 未購読ユーザー向けブロック */
+    .locked {
+      display: none;
+      text-align: center;
+      padding: 48px 16px;
+    }
+
+    .locked.visible { display: block; }
+    .locked .lock-icon { font-size: 48px; margin-bottom: 16px; }
+    .locked p { color: #9980cc; font-size: 15px; line-height: 1.7; }
+    .locked a {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 14px 32px;
+      background: linear-gradient(135deg, #7c3aed, #c026d3);
+      border-radius: 16px;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a class="back-link" href="/">コーチングに戻る</a>
+
+    <header>
+      <div class="moon">🌙</div>
+      <h1>今日の運勢</h1>
+      <p id="today-date"></p>
+    </header>
+
+    <!-- 未購読ユーザー向けメッセージ -->
+    <div class="locked" id="locked-section">
+      <div class="lock-icon">🔒</div>
+      <p>この機能はご登録いただいた方のみご利用いただけます。<br>3日間の無料トライアルまたはご購読でご利用ください。</p>
+      <a href="/">プランを見る</a>
+    </div>
+
+    <!-- 星座選択 -->
+    <div id="select-section" style="display:none">
+      <p class="section-title">✦ 星座を選んでください ✦</p>
+      <div class="zodiac-grid" id="zodiac-grid"></div>
+      <button class="cta-btn" id="fortune-btn" disabled>✨ 運勢を占う ✨</button>
+      <div class="error-msg" id="error-msg"></div>
+    </div>
+
+    <!-- ローディング -->
+    <div class="loading" id="loading">
+      <div class="spinner"></div>
+      <p>星の声を聞いています…</p>
+    </div>
+
+    <!-- 結果 -->
+    <div class="result" id="result">
+      <div class="result-header">
+        <div class="sign-emoji" id="result-emoji"></div>
+        <h2 id="result-title"></h2>
+        <p class="date" id="result-date"></p>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-icon">🌟</span>
+          <span class="card-label">総合運</span>
+          <div class="stars-row" id="stars-overall"></div>
+        </div>
+        <p class="card-message" id="msg-overall"></p>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-icon">💕</span>
+          <span class="card-label">恋愛運</span>
+          <div class="stars-row" id="stars-love"></div>
+        </div>
+        <p class="card-message" id="msg-love"></p>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-icon">💼</span>
+          <span class="card-label">仕事運</span>
+          <div class="stars-row" id="stars-work"></div>
+        </div>
+        <p class="card-message" id="msg-work"></p>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-icon">💰</span>
+          <span class="card-label">金運</span>
+          <div class="stars-row" id="stars-money"></div>
+        </div>
+        <p class="card-message" id="msg-money"></p>
+      </div>
+
+      <div class="lucky-grid">
+        <div class="lucky-card">
+          <div class="lucky-icon">🎨</div>
+          <div class="lucky-label">ラッキーカラー</div>
+          <div class="lucky-value" id="lucky-color"></div>
+        </div>
+        <div class="lucky-card">
+          <div class="lucky-icon">🔢</div>
+          <div class="lucky-label">ラッキーナンバー</div>
+          <div class="lucky-value" id="lucky-number"></div>
+        </div>
+      </div>
+
+      <div class="advice-card">
+        <div class="advice-icon">💫</div>
+        <div class="advice-label">今日のアドバイス</div>
+        <p class="advice-text" id="advice-text"></p>
+      </div>
+
+      <button class="retry-btn" id="retry-btn">↩ もう一度占う</button>
+    </div>
+  </div>
+
+  <script>
+    const SIGNS = [
+      { key: 'aries',       emoji: '♈', name: '牡羊座' },
+      { key: 'taurus',      emoji: '♉', name: '牡牛座' },
+      { key: 'gemini',      emoji: '♊', name: '双子座' },
+      { key: 'cancer',      emoji: '♋', name: '蟹座' },
+      { key: 'leo',         emoji: '♌', name: '獅子座' },
+      { key: 'virgo',       emoji: '♍', name: '乙女座' },
+      { key: 'libra',       emoji: '♎', name: '天秤座' },
+      { key: 'scorpio',     emoji: '♏', name: '蠍座' },
+      { key: 'sagittarius', emoji: '♐', name: '射手座' },
+      { key: 'capricorn',   emoji: '♑', name: '山羊座' },
+      { key: 'aquarius',    emoji: '♒', name: '水瓶座' },
+      { key: 'pisces',      emoji: '♓', name: '魚座' },
+    ];
+
+    const todayStr = new Date().toLocaleDateString('ja-JP', {
+      year: 'numeric', month: 'long', day: 'numeric', weekday: 'long'
+    });
+    document.getElementById('today-date').textContent = todayStr;
+
+    // アクセス制御（既存アプリと同じロジック）
+    const stripeCustomerId = localStorage.getItem('stripe_customer_id');
+    const trialStartDate = localStorage.getItem('trial_start_date') || '0';
+    const elapsed = Date.now() - parseInt(trialStartDate);
+    const threeDays = 3 * 24 * 60 * 60 * 1000;
+    const isSubscribed = !!stripeCustomerId;
+    const isTrialActive = elapsed < threeDays;
+    const hasAccess = isSubscribed || isTrialActive;
+
+    if (!hasAccess) {
+      document.getElementById('locked-section').classList.add('visible');
+    } else {
+      document.getElementById('select-section').style.display = 'block';
+    }
+
+    // 星座グリッド生成
+    const grid = document.getElementById('zodiac-grid');
+    let selectedSign = null;
+
+    SIGNS.forEach(s => {
+      const btn = document.createElement('button');
+      btn.className = 'zodiac-btn';
+      btn.innerHTML = `<span class="emoji">${s.emoji}</span>${s.name}`;
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.zodiac-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        selectedSign = s;
+        document.getElementById('fortune-btn').disabled = false;
+      });
+      grid.appendChild(btn);
+    });
+
+    function renderStars(containerId, score) {
+      const el = document.getElementById(containerId);
+      el.innerHTML = '';
+      for (let i = 1; i <= 5; i++) {
+        const span = document.createElement('span');
+        span.className = 'star-icon' + (i <= score ? ' lit' : '');
+        span.textContent = '★';
+        el.appendChild(span);
+      }
+    }
+
+    document.getElementById('fortune-btn').addEventListener('click', async () => {
+      if (!selectedSign) return;
+
+      document.getElementById('error-msg').classList.remove('visible');
+      document.getElementById('select-section').style.display = 'none';
+      document.getElementById('loading').classList.add('visible');
+
+      try {
+        const res = await fetch('/api/fortune', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            sign: selectedSign.key,
+            isSubscribed,
+            trialStartDate,
+          }),
+        });
+
+        const data = await res.json();
+
+        if (res.status === 403) {
+          document.getElementById('loading').classList.remove('visible');
+          document.getElementById('locked-section').classList.add('visible');
+          return;
+        }
+
+        if (!res.ok) throw new Error(data.error || 'エラーが発生しました');
+
+        const f = data.fortune;
+        document.getElementById('result-emoji').textContent = selectedSign.emoji;
+        document.getElementById('result-title').textContent = selectedSign.name + ' の運勢';
+        document.getElementById('result-date').textContent = todayStr;
+        document.getElementById('msg-overall').textContent = f.overall;
+        document.getElementById('msg-love').textContent = f.love;
+        document.getElementById('msg-work').textContent = f.work;
+        document.getElementById('msg-money').textContent = f.money;
+        renderStars('stars-overall', f.overallScore);
+        renderStars('stars-love', f.loveScore);
+        renderStars('stars-work', f.workScore);
+        renderStars('stars-money', f.moneyScore);
+        document.getElementById('lucky-color').textContent = f.luckyColor;
+        document.getElementById('lucky-number').textContent = f.luckyNumber;
+        document.getElementById('advice-text').textContent = f.advice;
+
+        document.getElementById('loading').classList.remove('visible');
+        document.getElementById('result').classList.add('visible');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      } catch (err) {
+        document.getElementById('loading').classList.remove('visible');
+        document.getElementById('select-section').style.display = 'block';
+        const errEl = document.getElementById('error-msg');
+        errEl.textContent = err.message;
+        errEl.classList.add('visible');
+      }
+    });
+
+    document.getElementById('retry-btn').addEventListener('click', () => {
+      document.getElementById('result').classList.remove('visible');
+      document.getElementById('select-section').style.display = 'block';
+      document.querySelectorAll('.zodiac-btn').forEach(b => b.classList.remove('selected'));
+      selectedSign = null;
+      document.getElementById('fortune-btn').disabled = true;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>

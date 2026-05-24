@@ -116,6 +116,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 2
       <p style="text-align:center;font-size:11px;color:#c8a96e;margin-bottom:10px;">まずは登録不要で3日間無料でお試しいただけます</p>
       <button class="portal-btn" id="portal-btn" style="display:none" onclick="openPortal()">⚙️ 契約内容・解約・請求を管理する</button>
       <button class="free-btn" onclick="begin(null)">テーマなしで自由に話す →</button>
+      <a id="fortune-link" href="/fortune.html" style="display:none;text-align:center;padding:11px 0;margin-bottom:14px;border:1px solid rgba(180,120,255,0.35);border-radius:10px;color:#c9a0ff;font-size:13px;font-weight:500;text-decoration:none;letter-spacing:.04em;background:rgba(180,120,255,0.07)">🔮 今日の運勢を占う</a>
       <div class="feats">
         <div class="feat"><span class="feat-ic">◈</span><span class="feat-lb">GROWモデル</span><span class="feat-dc">目標→現状→選択肢→行動</span></div>
         <div class="feat"><span class="feat-ic">◉</span><span class="feat-lb">完全非公開</span><span class="feat-dc">記録・共有されません</span></div>
@@ -157,6 +158,7 @@ function isTrialActive(){
   var elapsed=Date.now()-parseInt(localStorage.getItem('trial_start_date')||'0');
   return elapsed<3*24*60*60*1000;
 }
+if(isTrialActive()){document.getElementById('fortune-link').style.display='block';}
 function getTrialRemainingText(){
   var elapsed=Date.now()-parseInt(localStorage.getItem('trial_start_date')||'0');
   var remaining=(3*24*60*60*1000)-elapsed;
