@@ -79,9 +79,40 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 2
 .portal-btn{display:block;width:100%;background:none;border:1px solid #2a2a3e;color:#7a7880;font-size:12px;padding:10px 0;border-radius:10px;cursor:pointer;font-family:inherit;letter-spacing:.04em;margin-bottom:10px;transition:border-color .2s,color .2s}
 .portal-btn:hover{border-color:rgba(200,169,110,.4);color:#c8a96e}
 .portal-btn:disabled{opacity:.4;cursor:not-allowed}
+#login-gate{position:fixed;inset:0;background:#0d0d14;z-index:999;display:flex;align-items:center;justify-content:center;padding:20px}
+.lg-box{max-width:400px;width:100%;text-align:center}
+.lg-logo{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:40px}
+.lg-logo-box{width:32px;height:32px;border-radius:8px;background:#c8a96e;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#0a0a0f}
+.lg-logo-name{font-size:14px;font-weight:700;letter-spacing:.18em;color:#e8e4dc}
+.lg-title{font-size:22px;font-weight:300;color:#e8e4dc;margin-bottom:8px;line-height:1.4}
+.lg-sub{font-size:13px;color:#7a7880;margin-bottom:32px;line-height:1.7}
+.lg-input{width:100%;background:#111120;border:1px solid #2a2a3e;border-radius:10px;padding:14px 16px;color:#e8e4dc;font-size:15px;font-family:inherit;outline:none;transition:border-color .2s;margin-bottom:12px;box-sizing:border-box}
+.lg-input:focus{border-color:rgba(200,169,110,.65)}
+.lg-btn{width:100%;background:linear-gradient(135deg,#c8a96e,#e8c98e);border:none;color:#0a0a0f;font-size:15px;font-weight:800;padding:14px 0;border-radius:10px;cursor:pointer;font-family:inherit;letter-spacing:.04em;margin-bottom:16px}
+.lg-btn:disabled{opacity:.5;cursor:not-allowed}
+.lg-err{font-size:12px;color:#f05c5c;margin-bottom:12px;min-height:18px}
+.lg-note{font-size:11px;color:#5a5868;line-height:1.8}
+.lg-note a{color:#5a8fa8;text-decoration:none}
 </style>
 </head>
 <body>
+<div id="login-gate">
+  <div class="lg-box">
+    <div class="lg-logo">
+      <div class="lg-logo-box">C</div>
+      <span class="lg-logo-name">INNER COMPASS</span>
+    </div>
+    <p class="lg-title">メールアドレスで<br>続けてください</p>
+    <p class="lg-sub">ご登録のメールアドレスを入力してください。<br>初めての方はそのままお進みいただけます。</p>
+    <input type="email" id="lg-email" class="lg-input" placeholder="example@email.com" autocomplete="email">
+    <div class="lg-err" id="lg-err"></div>
+    <button class="lg-btn" id="lg-btn" onclick="doLogin()">続ける →</button>
+    <p class="lg-note">
+      1ヶ月間の無料トライアル付き・月額¥980<br>
+      <a href="/tokushoho.html">特定商取引法 / 利用規約 / プライバシーポリシー</a>
+    </p>
+  </div>
+</div>
 <div id="app">
   <header>
     <div class="logo">
@@ -157,6 +188,39 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 2
   </div>
 </div>
 <script>
+// ログインゲート
+(function(){
+  var email=localStorage.getItem('user_email');
+  if(email){
+    document.getElementById('login-gate').style.display='none';
+  } else {
+    document.getElementById('app').style.display='none';
+    var inp=document.getElementById('lg-email');
+    inp.addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});
+    setTimeout(function(){inp.focus();},100);
+  }
+})();
+function doLogin(){
+  var email=document.getElementById('lg-email').value.trim();
+  var errEl=document.getElementById('lg-err');
+  var btn=document.getElementById('lg-btn');
+  errEl.textContent='';
+  if(!email||!email.includes('@')){errEl.textContent='有効なメールアドレスを入力してください';return;}
+  btn.disabled=true;btn.textContent='確認中...';
+  fetch('/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email})})
+    .then(function(r){return r.json();})
+    .then(function(data){
+      if(data.error){errEl.textContent=data.error;btn.disabled=false;btn.textContent='続ける →';return;}
+      localStorage.setItem('user_email',email);
+      if(data.customerId){localStorage.setItem('stripe_customer_id',data.customerId);}
+      // スプレッドシートに追記（非同期・失敗しても続行）
+      fetch('/api/sheets/add',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email,status:data.status})}).catch(function(){});
+      document.getElementById('login-gate').style.display='none';
+      document.getElementById('app').style.display='flex';
+      if(data.customerId){showPortalBtn();}
+    })
+    .catch(function(){errEl.textContent='通信エラーが発生しました。再度お試しください。';btn.disabled=false;btn.textContent='続ける →';});
+}
 var SYSTEM='あなたは一流のエグゼクティブコーチです。答えを与えるのではなく、強力な質問でクライアント自身の気づきを引き出す。GROWモデルを意識する。批判や判断は絶対にしない。1回の返答に質問は必ず1つだけ。温かく、プロフェッショナル、日本語で。返答は3〜5文程度、簡潔かつ本質的に。\n\n【共感の原則】クライアントの言葉・感情を必ず受け止めてから問いかけること。「それは辛かったですね」「そう感じるのは自然なことです」「それだけ真剣に向き合っているんですね」など、相手に寄り添う表現を使い、一人ひとりの言葉を大切に拾ってください。\n\n【質問スタイルの多様化】毎回同じパターンにならないよう、以下を使い分けること：①「〜について、どう感じていますか？」（感情を引き出す）②「もし制限がなかったら、どうしたいですか？」（可能性を広げる）③「それが実現した時、何が変わると思いますか？」（未来を描く）④「今、一番大切にしたいことは何ですか？」（価値観に迫る）⑤「その出来事から、あなたは何を学びましたか？」（内省を促す）';
 var QUICK=['もう少し深く掘り下げてください','具体的な例を挙げると…','正直に言うと…','一番大切なのは…'];
 var PHASES=['','最初の一歩','深まってきた','核心に近づいている','重要な気づき','本質が見えてきた'];
