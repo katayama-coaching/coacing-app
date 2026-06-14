@@ -9,7 +9,7 @@ export default async function handler(req, res) {
     // 有料ユーザーのみ利用可能
     if (!isSubscribed) {
       const elapsed = Date.now() - parseInt(trialStartDate || '0');
-      const threeDays = 3 * 24 * 60 * 60 * 1000;
+      const threeDays = 30 * 24 * 60 * 60 * 1000;
       if (elapsed >= threeDays) {
         return res.status(403).json({ error: 'trial_expired' });
       }
@@ -30,6 +30,7 @@ export default async function handler(req, res) {
       year: 'numeric', month: 'long', day: 'numeric', weekday: 'long',
     });
 
+    const randomSeed = Math.floor(Math.random() * 10000);
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
@@ -42,7 +43,7 @@ export default async function handler(req, res) {
         max_tokens: 1024,
         messages: [{
           role: 'user',
-          content: `あなたは占い師です。今日（${today}）の${ZODIAC_SIGNS[sign]}の運勢を占ってください。
+          content: `あなたは占い師です。今日（${today}）の${ZODIAC_SIGNS[sign]}の運勢を占ってください。乱数シード:${randomSeed}。毎回異なる内容・数値・ラッキーカラー・アドバイスを生成してください。
 必ず以下のJSON形式のみで返してください。説明文やコードブロックは不要です：
 {
   "overall": "総合運の詳しいメッセージ（50文字程度）",
