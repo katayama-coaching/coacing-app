@@ -124,8 +124,8 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 2
           <div style="display:flex;align-items:center;gap:9px;font-size:12px;color:#e8e4dc;"><span>⏰</span>24時間いつでも利用可能</div>
         </div>
       </div>
-      <button class="pay-btn" id="pay-btn" onclick="startCheckout()">🪙 月額¥1,980で始める</button>
-      <p style="text-align:center;font-size:11px;color:#c8a96e;margin-bottom:10px;">まずは登録不要で3日間無料でお試しいただけます</p>
+      <button class="pay-btn" id="pay-btn" onclick="startCheckout()">🪙 月額¥980で始める</button>
+      <p style="text-align:center;font-size:11px;color:#c8a96e;margin-bottom:10px;">登録無料で1ヶ月間お試しいただけます</p>
       <button class="portal-btn" id="portal-btn" style="display:none" onclick="openPortal()">⚙️ 契約内容・解約・請求を管理する</button>
       <a id="fortune-link" href="/fortune.html" style="display:none;text-align:center;padding:11px 0;margin-bottom:14px;border:1px solid rgba(180,120,255,0.35);border-radius:10px;color:#c9a0ff;font-size:13px;font-weight:500;text-decoration:none;letter-spacing:.04em;background:rgba(180,120,255,0.07)">🔮 今日の運勢を占う</a>
       <div class="feats">
@@ -217,7 +217,7 @@ function resetApp(){saveSession();msgs=[];exchanges=0;busy=false;document.getEle
 function begin(topic){sesN++;msgs=[];exchanges=0;document.getElementById('welcome').style.display='none';document.getElementById('chat').style.display='flex';document.getElementById('new-btn').style.display='block';document.getElementById('ses-tag').textContent='Session #'+sesN;document.getElementById('ses-tag').style.display='block';document.getElementById('ta').focus();updateMeta();if(topic)quickSend(topic);}
 function send(textOverride){
   if(!isTrialActive()){
-    document.getElementById('msgs').innerHTML+='<div class="row-a"><div class="av">C</div><div class="asst-col"><div class="ba">3日間のトライアルが終了しました。<br>続けてご利用いただくには、サブスクリプション登録が必要です。<br><br><button onclick="startCheckout()" style="background:#c8a96e;color:#0d0d14;border:none;padding:12px 24px;border-radius:8px;font-size:14px;cursor:pointer;font-weight:700;">今すぐ登録する（月額¥1,980）</button></div></div></div>';
+    document.getElementById('msgs').innerHTML+='<div class="row-a"><div class="av">C</div><div class="asst-col"><div class="ba">1ヶ月間の無料トライアルが終了しました。<br>続けてご利用いただくには、サブスクリプション登録が必要です。<br><br><button onclick="startCheckout()" style="background:#c8a96e;color:#0d0d14;border:none;padding:12px 24px;border-radius:8px;font-size:14px;cursor:pointer;font-weight:700;">今すぐ登録する（月額¥980）</button></div></div></div>';
     return;
   }
   var text=(textOverride||document.getElementById('ta').value).trim();if(!text||busy)return;removeQuicks();document.getElementById('ta').value='';document.getElementById('ta').style.height='auto';updateSendBtn();msgs.push({role:'user',content:text});appendMsg('user',text);setBusy(true);callAPI(msgs,text).then(function(reply){msgs.push({role:'assistant',content:reply});appendMsg('assistant',reply,true);exchanges++;updateMeta();setBusy(false);document.getElementById('ta').focus();}).catch(function(e){showErr(e.message);setBusy(false);});}
@@ -229,7 +229,7 @@ ta.addEventListener('blur',function(){iw.classList.remove('focus');});
 ta.addEventListener('compositionstart',function(){composing=true;});
 ta.addEventListener('compositionend',function(){composing=false;});
 ta.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey&&!composing){e.preventDefault();send();}});
-function startCheckout(){var btn=document.getElementById('pay-btn');btn.disabled=true;btn.textContent='処理中...';fetch('/api/stripe/checkout',{method:'POST',headers:{'Content-Type':'application/json'}}).then(function(r){return r.json();}).then(function(data){if(data.url){window.location.href=data.url;}else{alert('エラー: '+(data.error||'不明'));btn.disabled=false;btn.textContent='🪙 月額¥1,980で始める';}}).catch(function(e){alert('通信エラー: '+e.message);btn.disabled=false;btn.textContent='🪙 月額¥1,980で始める';});}
+function startCheckout(){var btn=document.getElementById('pay-btn');btn.disabled=true;btn.textContent='処理中...';fetch('/api/stripe/checkout',{method:'POST',headers:{'Content-Type':'application/json'}}).then(function(r){return r.json();}).then(function(data){if(data.url){window.location.href=data.url;}else{alert('エラー: '+(data.error||'不明'));btn.disabled=false;btn.textContent='🪙 月額¥980で始める';}}).catch(function(e){alert('通信エラー: '+e.message);btn.disabled=false;btn.textContent='🪙 月額¥980で始める';});}
 </script>
 </body>
 </html>
