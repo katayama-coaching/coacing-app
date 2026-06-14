@@ -167,13 +167,13 @@ if(!localStorage.getItem('trial_start_date')){
 function isTrialActive(){
   if(localStorage.getItem('stripe_customer_id'))return true;
   var elapsed=Date.now()-parseInt(localStorage.getItem('trial_start_date')||'0');
-  return elapsed<3*24*60*60*1000;
+  return elapsed<30*24*60*60*1000;
 }
 if(isTrialActive()){document.getElementById('fortune-link').style.display='block';}
 updateHistoryBtn();
 function getTrialRemainingText(){
   var elapsed=Date.now()-parseInt(localStorage.getItem('trial_start_date')||'0');
-  var remaining=(3*24*60*60*1000)-elapsed;
+  var remaining=(30*24*60*60*1000)-elapsed;
   var hours=Math.floor(remaining/(60*60*1000));
   if(hours>=24)return 'トライアル残り'+Math.floor(hours/24)+'日';
   if(hours>0)return 'トライアル残り'+hours+'時間';
