@@ -9,10 +9,13 @@ module.exports = async (req, res) => {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [{
-        price: 'price_1TSXbDGTYiij3LucYP9qbYQY',
+        price: 'price_1Ti89TGTYiij3LucKtOkiR3W',
         quantity: 1,
       }],
       mode: 'subscription',
+      subscription_data: {
+        trial_period_days: 30,
+      },
      
       success_url: `https://coacing-app.vercel.app/?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `https://coacing-app.vercel.app/`,
