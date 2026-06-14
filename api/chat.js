@@ -8,7 +8,7 @@ export default async function handler(req, res) {
 // サーバー側の二重チェック（トライアル期限切れならブロック）
 if (!isSubscribed) {
   const elapsed = Date.now() - parseInt(trialStartDate || '0');
-  const threeDays = 3 * 24 * 60 * 60 * 1000;
+  const threeDays = 30 * 24 * 60 * 60 * 1000;
   if (elapsed >= threeDays) {
     return res.status(403).json({ error: 'trial_expired' });
   }
