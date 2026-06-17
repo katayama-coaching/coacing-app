@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>INNER COMPASS - AI Coaching</title>
+<title>INNER COMPASS | 1on1準備のためのAIコーチング</title>
 <style>
 #vercel-live-feedback,vercel-live-feedback{display:none!important}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -39,6 +39,11 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 2
 .s-emoji{font-size:16px;flex-shrink:0}
 .s-txt{font-size:12px;line-height:1.35}
 .free-btn{display:block;width:100%;background:#111120;border:1px solid #2a2a3e;color:#c8a96e;font-size:13px;font-weight:500;padding:12px 0;border-radius:10px;cursor:pointer;font-family:inherit;letter-spacing:.04em;margin-bottom:14px}
+.link-card{display:block;background:rgba(200,169,110,.08);border:1px solid rgba(200,169,110,.28);border-radius:12px;padding:14px 16px;margin-bottom:14px;color:#e8e4dc;text-decoration:none;transition:border-color .15s,background .15s}
+.link-card:hover{border-color:rgba(200,169,110,.5);background:rgba(200,169,110,.12)}
+.link-card small{display:block;font-size:10px;color:#c8a96e;letter-spacing:.12em;font-weight:700;margin-bottom:8px}
+.link-card strong{display:block;font-size:15px;margin-bottom:6px}
+.link-card span{display:block;font-size:12px;line-height:1.7;color:#9b98a8}
 .feats{display:flex;border-top:1px solid #1e1e30;padding-top:18px}
 .feat{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;padding:0 8px}
 .feat-ic{font-size:14px;color:#c8a96e}
@@ -93,6 +98,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 2
 .lg-err{font-size:12px;color:#f05c5c;margin-bottom:12px;min-height:18px}
 .lg-note{font-size:11px;color:#5a5868;line-height:1.8}
 .lg-note a{color:#5a8fa8;text-decoration:none}
+@media (max-width:640px){.starters{grid-template-columns:1fr}.feats{flex-direction:column;gap:14px}.feat{padding:0}}
 </style>
 </head>
 <body>
@@ -102,8 +108,8 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 2
       <div class="lg-logo-box">C</div>
       <span class="lg-logo-name">INNER COMPASS</span>
     </div>
-    <p class="lg-title">メールアドレスで<br>続けてください</p>
-    <p class="lg-sub">ご登録のメールアドレスを入力してください。<br>初めての方はそのままお進みいただけます。</p>
+    <p class="lg-title">1on1前に頭の中を整理する<br>AIコーチング</p>
+    <p class="lg-sub">部下との面談前に、何を聞くか、どこに注目するかを整理するための補助アプリです。<br>初めての方はそのままお進みいただけます。</p>
     <input type="email" id="lg-email" class="lg-input" placeholder="example@email.com" autocomplete="email">
     <div class="lg-err" id="lg-err"></div>
     <button class="lg-btn" id="lg-btn" onclick="doLogin()">続ける →</button>
@@ -118,9 +124,10 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 2
     <div class="logo">
       <div class="logo-box">C</div>
       <span class="logo-name">INNER COMPASS</span>
-      <span class="logo-badge">AI COACHING</span>
+      <span class="logo-badge">FOR 1ON1</span>
     </div>
     <div class="hdr-right">
+      <a href="https://1on1-practice-app.vercel.app/" class="hdr-btn" target="_blank" rel="noopener noreferrer">1on1講座へ</a>
       <span id="ses-tag" style="font-size:10px;color:#3a3848;display:none"></span>
       <a href="/history.html" class="hdr-btn" id="history-btn" style="display:none;text-decoration:none">📖 履歴</a>
       <button class="hdr-btn" id="new-btn" style="display:none" onclick="resetApp()">+ 新セッション</button>
@@ -133,40 +140,44 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 2
   <div id="welcome">
     <div class="welcome-inner">
       <div class="hero">
-        <div class="hero-badge"><div class="live-dot"></div><span class="badge-lbl">AI COACHING SESSION</span></div>
-        <h1>あなたの内側に<br><b>答えはある。</b></h1>
-        <p>思考を整理し、本当にやりたいことを見つけよう。</p>
+        <div class="hero-badge"><div class="live-dot"></div><span class="badge-lbl">BEFORE 1ON1 SESSION</span></div>
+        <h1>1on1の前に、<br><b>自分の問いを整える。</b></h1>
+        <p>部下に何を聞くか迷う管理職が、本番前に考えを整理するためのAIコーチングです。1on1基礎コーチング講座と併用すると、学んだ聞き方を実際の言葉に落とし込みやすくなります。</p>
       </div>
       <div class="starters">
-        <button class="s-btn" onclick="begin('仕事のモヤモヤを整理したい')"><span class="s-emoji">💼</span><span class="s-txt">仕事のモヤモヤを整理したい</span></button>
-        <button class="s-btn" onclick="begin('目標が定まらない')"><span class="s-emoji">🎯</span><span class="s-txt">目標が定まらない</span></button>
-        <button class="s-btn" onclick="begin('人間関係で悩んでいる')"><span class="s-emoji">👥</span><span class="s-txt">人間関係で悩んでいる</span></button>
-        <button class="s-btn" onclick="begin('キャリアの転換期にある')"><span class="s-emoji">🔀</span><span class="s-txt">キャリアの転換期にある</span></button>
-        <button class="s-btn" onclick="begin('自分の強みがわからない')"><span class="s-emoji">✨</span><span class="s-txt">自分の強みがわからない</span></button>
-        <button class="s-btn" onclick="begin('やる気が出ない・燃え尽きた')"><span class="s-emoji">⚡</span><span class="s-txt">やる気が出ない・燃え尽きた</span></button>
+        <button class="s-btn" onclick="begin('最近元気がない部下に、最初どう入ればいいか整理したい')"><span class="s-emoji">🌿</span><span class="s-txt">元気がない部下への入り方を整理したい</span></button>
+        <button class="s-btn" onclick="begin('退職を考えていそうな部下に、どこまで踏み込むべきか整理したい')"><span class="s-emoji">🧭</span><span class="s-txt">退職予兆への向き合い方を整理したい</span></button>
+        <button class="s-btn" onclick="begin('1on1で何を聞くべきか、最初の3質問を整理したい')"><span class="s-emoji">💬</span><span class="s-txt">最初の3質問を整理したい</span></button>
+        <button class="s-btn" onclick="begin('若手が自信をなくしている時の聞き方を整理したい')"><span class="s-emoji">🌱</span><span class="s-txt">若手の自信低下への聞き方を整理したい</span></button>
+        <button class="s-btn" onclick="begin('忙しそうな部下に配慮しながら話す進め方を整理したい')"><span class="s-emoji">⏳</span><span class="s-txt">忙しい部下への配慮の仕方を整理したい</span></button>
+        <button class="s-btn" onclick="begin('自分が話しすぎてしまうので、聞く比率を上げるための進め方を整理したい')"><span class="s-emoji">🎧</span><span class="s-txt">自分が話しすぎる癖を整えたい</span></button>
       </div>
-      <button class="free-btn" onclick="begin(null)">テーマなしで自由に話す →</button>
+      <button class="free-btn" onclick="begin(null)">テーマを決めずに、本番前の頭の整理を始める →</button>
+      <a class="link-card" href="https://1on1-practice-app.vercel.app/" target="_blank" rel="noopener noreferrer">
+        <small>あわせて使う</small>
+        <strong>1on1基礎コーチング講座で学び、ここで本番前に整理する</strong>
+        <span>講座で学んだ「安心感づくり」「深掘り」「共感」の型を、このアプリで次の面談用の言葉に変えられます。</span>
+      </a>
       <div style="background:rgba(200,169,110,0.07);border:1px solid rgba(200,169,110,0.25);border-radius:12px;padding:14px 16px;margin-bottom:14px;">
         <p style="font-size:10px;color:#c8a96e;letter-spacing:.12em;font-weight:700;margin-bottom:10px;">✦ ご購読に含まれる機能</p>
         <div style="display:flex;flex-direction:column;gap:7px;">
-          <div style="display:flex;align-items:center;gap:9px;font-size:12px;color:#e8e4dc;"><span>💬</span>AIコーチング無制限（GROWモデル）</div>
-          <div style="display:flex;align-items:center;gap:9px;font-size:12px;color:#e8e4dc;"><span>🔮</span>毎日の星座占い（総合・恋愛・仕事・金運）</div>
+          <div style="display:flex;align-items:center;gap:9px;font-size:12px;color:#e8e4dc;"><span>💬</span>AIコーチング無制限</div>
+          <div style="display:flex;align-items:center;gap:9px;font-size:12px;color:#e8e4dc;"><span>🪞</span>1on1前の問いの整理と感情の棚卸し</div>
+          <div style="display:flex;align-items:center;gap:9px;font-size:12px;color:#e8e4dc;"><span>📝</span>面談前に言葉を整える壁打ち用途</div>
           <div style="display:flex;align-items:center;gap:9px;font-size:12px;color:#e8e4dc;"><span>🔒</span>完全非公開・外部共有なし</div>
-          <div style="display:flex;align-items:center;gap:9px;font-size:12px;color:#e8e4dc;"><span>⏰</span>24時間いつでも利用可能</div>
         </div>
       </div>
-      <button class="pay-btn" id="pay-btn" onclick="startCheckout()">🪙 月額¥980で始める</button>
+      <button class="pay-btn" id="pay-btn" onclick="startCheckout()">月額¥980で始める</button>
       <p style="text-align:center;font-size:11px;color:#c8a96e;margin-bottom:10px;">登録無料で1ヶ月間お試しいただけます</p>
       <button class="portal-btn" id="portal-btn" style="display:none" onclick="openPortal()">⚙️ 契約内容・解約・請求を管理する</button>
-      <a id="fortune-link" href="/fortune.html" style="display:none;text-align:center;padding:11px 0;margin-bottom:14px;border:1px solid rgba(180,120,255,0.35);border-radius:10px;color:#c9a0ff;font-size:13px;font-weight:500;text-decoration:none;letter-spacing:.04em;background:rgba(180,120,255,0.07)">🔮 今日の運勢を占う</a>
       <div class="feats">
-        <div class="feat"><span class="feat-ic">◈</span><span class="feat-lb">GROWモデル</span><span class="feat-dc">目標→現状→選択肢→行動</span></div>
+        <div class="feat"><span class="feat-ic">◈</span><span class="feat-lb">面談前整理</span><span class="feat-dc">問い・順番・温度感を整える</span></div>
         <div class="feat"><span class="feat-ic">◉</span><span class="feat-lb">完全非公開</span><span class="feat-dc">外部共有・サーバー保存なし</span></div>
-        <div class="feat"><span class="feat-ic">◇</span><span class="feat-lb">24時間対応</span><span class="feat-dc">いつでも壁打ち可能</span></div>
- </div>
-        <div style="text-align:center;padding:16px 0 4px;">
-          <a href="/tokushoho.html" style="font-size:11px;color:#5a8fa8;text-decoration:none;letter-spacing:.08em;">特定商取引法に基づく表記 / 利用規約 / プライバシーポリシー</a>
-        </div>
+        <div class="feat"><span class="feat-ic">◇</span><span class="feat-lb">24時間対応</span><span class="feat-dc">次の1on1前にすぐ壁打ち可能</span></div>
+      </div>
+      <div style="text-align:center;padding:16px 0 4px;">
+        <a href="/tokushoho.html" style="font-size:11px;color:#5a8fa8;text-decoration:none;letter-spacing:.08em;">特定商取引法に基づく表記 / 利用規約 / プライバシーポリシー</a>
+      </div>
     </div>
   </div>
   <div id="chat">
@@ -178,7 +189,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 2
     <div class="msgs" id="msgs"></div>
     <div class="input-area">
       <div class="input-wrap" id="iw">
-        <textarea id="ta" rows="1" placeholder="あなたの思いを自由に話してください…"></textarea>
+        <textarea id="ta" rows="1" placeholder="次の1on1に向けて、いま整理したいことを書いてください…"></textarea>
         <div class="input-foot">
           <span class="char-lbl" id="char-lbl">Shift+Enter で改行</span>
           <button id="send-btn" disabled onclick="send()">送信</button>
@@ -188,7 +199,6 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 2
   </div>
 </div>
 <script>
-// ログインゲート
 (function(){
   var email=localStorage.getItem('user_email');
   if(email){
@@ -213,7 +223,6 @@ function doLogin(){
       if(data.error){errEl.textContent=data.error;btn.disabled=false;btn.textContent='続ける →';return;}
       localStorage.setItem('user_email',email);
       if(data.customerId){localStorage.setItem('stripe_customer_id',data.customerId);}
-      // スプレッドシートに追記（非同期・失敗しても続行）
       fetch('/api/sheets/add',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email,status:data.status})}).catch(function(){});
       document.getElementById('login-gate').style.display='none';
       document.getElementById('app').style.display='flex';
@@ -221,9 +230,9 @@ function doLogin(){
     })
     .catch(function(){errEl.textContent='通信エラーが発生しました。再度お試しください。';btn.disabled=false;btn.textContent='続ける →';});
 }
-var SYSTEM='あなたは一流のエグゼクティブコーチです。答えを与えるのではなく、強力な質問でクライアント自身の気づきを引き出す。GROWモデルを意識する。批判や判断は絶対にしない。1回の返答に質問は必ず1つだけ。温かく、プロフェッショナル、日本語で。返答は3〜5文程度、簡潔かつ本質的に。\n\n【共感の原則】クライアントの言葉・感情を必ず受け止めてから問いかけること。「それは辛かったですね」「そう感じるのは自然なことです」「それだけ真剣に向き合っているんですね」など、相手に寄り添う表現を使い、一人ひとりの言葉を大切に拾ってください。\n\n【質問スタイルの多様化】毎回同じパターンにならないよう、以下を使い分けること：①「〜について、どう感じていますか？」（感情を引き出す）②「もし制限がなかったら、どうしたいですか？」（可能性を広げる）③「それが実現した時、何が変わると思いますか？」（未来を描く）④「今、一番大切にしたいことは何ですか？」（価値観に迫る）⑤「その出来事から、あなたは何を学びましたか？」（内省を促す）';
-var QUICK=['もう少し深く掘り下げてください','具体的な例を挙げると…','正直に言うと…','一番大切なのは…'];
-var PHASES=['','最初の一歩','深まってきた','核心に近づいている','重要な気づき','本質が見えてきた'];
+var SYSTEM='あなたは、管理職のための1on1事前整理コーチです。答えを与えるのではなく、次の1on1で何を聞くか、どこに注目するか、どの順番で話すかを整理できるように支援してください。批判や判断はせず、相手が自分で考えを言語化できるよう促します。1回の返答では質問は1つまで。日本語で、落ち着いて、実務的に、3〜5文程度で返してください。\n\n【基本姿勢】まず管理職の迷いや不安を短く受け止めること。そのうえで、部下の状態、面談の目的、最初の入り方、避けたい一言のどれを整理すべきかを見極めて問いを返してください。\n\n【返答の方向性】必要に応じて、①部下の状態整理 ②面談の目的整理 ③最初の質問づくり ④深掘りポイント整理 ⑤避けたい返し方の確認 のいずれかに寄せてください。解決策を断定せず、次の1on1に持っていける言葉へ整えることを優先してください。';
+var QUICK=['最初の一言を整えたい','もう少し深掘りしたい','避けたい返し方も見たい','次の質問を一緒に考えたい'];
+var PHASES=['','状況を整理中','目的を絞り込み中','質問を整え中','本番イメージが見えてきた','次の1on1に持ち込める状態'];
 var msgs=[],busy=false,sesN=0,exchanges=0,composing=false;
 if(!localStorage.getItem('trial_start_date')){
   localStorage.setItem('trial_start_date',Date.now().toString());
@@ -233,7 +242,6 @@ function isTrialActive(){
   var elapsed=Date.now()-parseInt(localStorage.getItem('trial_start_date')||'0');
   return elapsed<30*24*60*60*1000;
 }
-if(isTrialActive()){document.getElementById('fortune-link').style.display='block';}
 updateHistoryBtn();
 function getTrialRemainingText(){
   var elapsed=Date.now()-parseInt(localStorage.getItem('trial_start_date')||'0');
@@ -263,14 +271,14 @@ function getTrialRemainingText(){
 })();
 function showPortalBtn(){var btn=document.getElementById('portal-btn');if(btn)btn.style.display='block';var payBtn=document.getElementById('pay-btn');if(payBtn)payBtn.style.display='none';}
 function openPortal(){var customerId=localStorage.getItem('stripe_customer_id');if(!customerId){alert('お客様情報が見つかりません。\nサポート: ookura6882@gmail.com');return;}var btn=document.getElementById('portal-btn');btn.disabled=true;btn.textContent='読み込み中...';fetch('/api/stripe/portal',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({customerId:customerId})}).then(function(r){return r.json();}).then(function(data){if(data.url){window.location.href=data.url;}else{alert('エラー: '+(data.error||'不明'));btn.disabled=false;btn.textContent='⚙️ 契約内容・解約・請求を管理する';}}).catch(function(e){alert('通信エラー: '+e.message);btn.disabled=false;btn.textContent='⚙️ 契約内容・解約・請求を管理する';});}
-var EMOTIONAL_KEYWORDS=['辛い','つらい','苦しい','困っている','悩んでいる','不安','モヤモヤ','しんどい','疲れた','落ち込んでいる','怖い','怖い','ストレス','悲しい','焦っている','焦り','迷っている','どうしたら','わからない','限界','やめたい','逃げたい','消えたい','辞めたい','後悔','失敗した'];
+var EMOTIONAL_KEYWORDS=['辛い','つらい','苦しい','困っている','悩んでいる','不安','モヤモヤ','しんどい','疲れた','落ち込んでいる','怖い','ストレス','悲しい','焦っている','焦り','迷っている','どうしたら','わからない','限界','やめたい','辞めたい','後悔','失敗した'];
 function detectEmotion(text){for(var i=0;i<EMOTIONAL_KEYWORDS.length;i++){if(text.indexOf(EMOTIONAL_KEYWORDS[i])!==-1)return true;}return false;}
 function callAPI(history,userText){var cleaned=[];for(var i=0;i<history.length;i++){var m=history[i];if(m&&m.role&&typeof m.content==='string'&&m.content.trim()){cleaned.push({role:m.role,content:m.content.trim()});}}var isSubscribed=!!localStorage.getItem('stripe_customer_id');var emotional_flag=userText?detectEmotion(userText):false;return fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:cleaned,system:SYSTEM,isSubscribed:isSubscribed,trialStartDate:localStorage.getItem('trial_start_date'),exchanges:exchanges,emotional_flag:emotional_flag})}).then(function(r){return r.json();}).then(function(data){return data.reply;})}
 function showErr(msg){document.getElementById('err-msg').textContent=msg;document.getElementById('err-bar').style.display='flex';}
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');}
 function updateMeta(){var lbl=PHASES[Math.min(exchanges,PHASES.length-1)]||'セッション継続中';document.getElementById('phase-lbl').textContent=lbl;var isSubscribed=!!localStorage.getItem('stripe_customer_id');document.getElementById('exch-lbl').textContent=isSubscribed?'':getTrialRemainingText();document.getElementById('prog').style.width=Math.min((exchanges/6)*100,100)+'%';}
 function removeQuicks(){var qs=document.querySelectorAll('.quick-row');for(var i=0;i<qs.length;i++)qs[i].remove();}
-function appendMsg(role,content,showQuick){var wrap=document.getElementById('msgs');var d=document.createElement('div');if(role==='user'){d.className='row-u';d.innerHTML='<div class="bu">'+esc(content)+'</div>';}else{d.className='row-a';var qhtml='';if(showQuick){qhtml='<div class="quick-row">';for(var i=0;i<QUICK.length;i++){qhtml+='<button class="qbtn" onclick="quickSend(\''+QUICK[i].replace(/'/g,"\\'")+'\')">'+ esc(QUICK[i])+'</button>';}qhtml+='</div>';}d.innerHTML='<div class="av">C</div><div class="asst-col"><div class="ba">'+esc(content)+'</div>'+qhtml+'</div>';}wrap.appendChild(d);wrap.scrollTop=wrap.scrollHeight;}
+function appendMsg(role,content,showQuick){var wrap=document.getElementById('msgs');var d=document.createElement('div');if(role==='user'){d.className='row-u';d.innerHTML='<div class="bu">'+esc(content)+'</div>';}else{d.className='row-a';var qhtml='';if(showQuick){qhtml='<div class="quick-row">';for(var i=0;i<QUICK.length;i++){qhtml+='<button class="qbtn" onclick="quickSend(\''+QUICK[i].replace(/'/g,"\\'")+'\')">'+esc(QUICK[i])+'</button>';}qhtml+='</div>';}d.innerHTML='<div class="av">C</div><div class="asst-col"><div class="ba">'+esc(content)+'</div>'+qhtml+'</div>';}wrap.appendChild(d);wrap.scrollTop=wrap.scrollHeight;}
 function showTyping(){var wrap=document.getElementById('msgs');var d=document.createElement('div');d.id='typing';d.className='row-a';d.innerHTML='<div class="av">C</div><div class="dots-wrap"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>';wrap.appendChild(d);wrap.scrollTop=wrap.scrollHeight;}
 function hideTyping(){var el=document.getElementById('typing');if(el)el.remove();}
 function setBusy(b){busy=b;if(b)showTyping();else hideTyping();updateSendBtn();}
@@ -295,7 +303,7 @@ ta.addEventListener('blur',function(){iw.classList.remove('focus');});
 ta.addEventListener('compositionstart',function(){composing=true;});
 ta.addEventListener('compositionend',function(){composing=false;});
 ta.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey&&!composing){e.preventDefault();send();}});
-function startCheckout(){var btn=document.getElementById('pay-btn');btn.disabled=true;btn.textContent='処理中...';fetch('/api/stripe/checkout',{method:'POST',headers:{'Content-Type':'application/json'}}).then(function(r){return r.json();}).then(function(data){if(data.url){window.location.href=data.url;}else{alert('エラー: '+(data.error||'不明'));btn.disabled=false;btn.textContent='🪙 月額¥980で始める';}}).catch(function(e){alert('通信エラー: '+e.message);btn.disabled=false;btn.textContent='🪙 月額¥980で始める';});}
+function startCheckout(){var btn=document.getElementById('pay-btn');btn.disabled=true;btn.textContent='処理中...';fetch('/api/stripe/checkout',{method:'POST',headers:{'Content-Type':'application/json'}}).then(function(r){return r.json();}).then(function(data){if(data.url){window.location.href=data.url;}else{alert('エラー: '+(data.error||'不明'));btn.disabled=false;btn.textContent='月額¥980で始める';}}).catch(function(e){alert('通信エラー: '+e.message);btn.disabled=false;btn.textContent='月額¥980で始める';});}
 </script>
 </body>
 </html>
