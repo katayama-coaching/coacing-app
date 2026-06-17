@@ -1,4 +1,4 @@
-async function callOpenAI({ system, messages, maxOutputTokens = 1500, model = 'gpt-5.4-mini' }) {
+async function callOpenAI({ system, messages, maxOutputTokens = 1500, model }) {
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) throw new Error('OPENAI_API_KEY が設定されていません');
 
@@ -44,7 +44,7 @@ async function callOpenAI({ system, messages, maxOutputTokens = 1500, model = 'g
   return text;
 }
 
-export default async function handler(req, res) {
+module.exports = async (req, res) => {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -83,11 +83,11 @@ export default async function handler(req, res) {
       system: effectiveSystem,
       messages,
       maxOutputTokens: 1500,
-      model: 'gpt-5.4-mini',
+      model: process.env.OPENAI_MODEL || 'gpt-5.4-mini',
     });
 
     return res.status(200).json({ reply });
   } catch (error) {
     return res.status(500).json({ error: 'Internal server error', detail: error.message });
   }
-}
+};
