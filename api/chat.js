@@ -1,4 +1,4 @@
-async function callOpenAI({ system, messages, maxOutputTokens = 1500, model }) {
+async function callOpenAI({ system, messages, maxOutputTokens = 1000, model }) {
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) throw new Error('OPENAI_API_KEY が設定されていません');
 
@@ -57,35 +57,63 @@ module.exports = async (req, res) => {
 
     if (!isSubscribed) {
       const elapsed = Date.now() - parseInt(trialStartDate || '0', 10);
-      const threeDays = 30 * 24 * 60 * 60 * 1000;
-      if (elapsed >= threeDays) {
+      const trialWindow = 30 * 24 * 60 * 60 * 1000;
+      if (elapsed >= trialWindow) {
         return res.status(403).json({ error: 'trial_expired' });
       }
     }
 
     const exchangeCount = parseInt(exchanges || '0', 10);
+
+    const learningInstruction = [
+      '【学習モード】あなたは整理の代行者ではなく、GROWを学ぶための伴走者です。',
+      '毎回、短い受け止めを置いたあと、観察1つと質問1つを基本にしてください。',
+      '完成した答え、模範解答、最初の一言の決定版を早い段階で出しすぎないでください。',
+      '相手の代わりに整理し切らず、本人が少し考える余白を残してください。',
+      'ユーザーが例を求めた場合も、例は1つまでに留め、最後は「あなたの言葉にするとどうなりますか」と返してください。'
+    ].join('');
+
     let phaseInstruction = '';
     if (exchangeCount >= 8) {
-      phaseInstruction = '\n\n【現在のフェーズ: Willの具体化】ここまでの整理を踏まえ、今回の1on1で実際にどう臨むかを言葉にする段階です。必要であれば、最初の一言、最初の質問、今日は確認しないことを小さく絞り込んでください。';
+      phaseInstruction = [
+        '【現在のフェーズ: Willの具体化】',
+        'ここまでの整理を踏まえ、今回はどう臨むかを本人の言葉で短く定める段階です。',
+        '最初の一言、確認したいこと、今日は急がないことのうち1つか2つに絞ってください。',
+        'あなたが完成版を提示するより、本人に言い切らせることを優先してください。'
+      ].join('');
     } else if (exchangeCount >= 4) {
-      phaseInstruction = '\n\n【現在のフェーズ: Optionsの深掘り】表面的な整理から一歩進み、どんな関わり方がありそうか、自分が急ぎすぎていることは何か、どこまで踏み込むかを考える段階です。少し難しさが残る問いでも構いませんが、実務に持ち込める形から離れすぎないでください。';
+      phaseInstruction = [
+        '【現在のフェーズ: Optionsの深掘り】',
+        '表面的な整理から一歩進み、どんな関わり方がありそうかを考える段階です。',
+        '少し難しさは残してよいので、選択肢の比較、優先順位、踏み込みすぎるリスクなどを本人に考えさせてください。',
+        '選択肢を出し切るより、「どちらを優先したいか」「何を手放すか」を問う方を優先してください。'
+      ].join('');
     } else {
-      phaseInstruction = '\n\n【現在のフェーズ: GoalとRealityの整理】初心者でも詰まりにくいよう、まずは「今回いちばん困っていること」「部下のどの反応が気になっているか」「今日は避けたいこと」など、具体的な入口から整理してください。抽象的に迫りすぎず、相手が答えやすい問いを一つ返してください。';
+      phaseInstruction = [
+        '【現在のフェーズ: GoalとRealityの整理】',
+        '初心者でも詰まりにくいよう、まずは今回いちばん知りたいこと、気になっている部下の反応、今日は避けたいことなど、具体的な入口から入ってください。',
+        'ただし、すぐに2択や正解例で片づけすぎず、本人の言葉を一段引き出す問いを優先してください。',
+        '問いはやさしく、でも少し考えないと答えられない深さを保ってください。'
+      ].join('');
     }
 
     const emotionalInstruction = emotional_flag
-      ? '\n\n【感情への対応】クライアントは今、強い感情を抱えています。まず「それは辛かったですね」「そう感じるのは自然なことです」など、感情を丁寧に受け止める一文を必ず入れてから、質問に移ってください。'
+      ? [
+          '【感情への対応】クライアントは今、強い感情を抱えています。',
+          'まず感情を短く受け止めてから質問へ進んでください。',
+          'ただし、慰めで完結せず、「今いちばん引っかかっていることは何か」を考えられる問いにつなげてください。'
+        ].join('')
       : '';
 
-    const enhancedSystem = system + phaseInstruction + emotionalInstruction;
+    const enhancedSystem = [system, learningInstruction, phaseInstruction, emotionalInstruction].join('\n\n');
     const effectiveSystem = isSubscribed
       ? enhancedSystem
-      : enhancedSystem + '\n\n【制約】返答は必ず3文以内で簡潔に。箇条書き・選択肢・フォローアップ提案は一切禁止。本質的な問いを1つだけ返すこと。';
+      : enhancedSystem + '\n\n【制約】返答は必ず3文以内で簡潔に。箇条書き・選択肢の列挙・フォローアップ提案は一切禁止。本質的な問いを1つだけ返すこと。';
 
     const reply = await callOpenAI({
       system: effectiveSystem,
       messages,
-      maxOutputTokens: 1500,
+      maxOutputTokens: 1000,
       model: process.env.OPENAI_MODEL || 'gpt-5.4-mini',
     });
 
