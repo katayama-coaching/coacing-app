@@ -14,7 +14,6 @@
       --text: #e8e4dc;
       --text-muted: #8a8690;
       --accent: #c9a96e;
-      --accent-light: #e8c98a;
       --white: #f5f2ec;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -27,7 +26,7 @@
     .page-header { text-align: center; padding: 60px 20px 40px; }
     .page-header h1 { font-family: 'Noto Serif JP', serif; font-weight: 300; font-size: clamp(22px, 4vw, 32px); letter-spacing: 0.2em; color: var(--white); margin-bottom: 12px; }
     .page-header p { font-size: 13px; color: var(--text-muted); letter-spacing: 0.1em; }
-    .tabs-container { max-width: 860px; margin: 0 auto; padding: 0 20px 80px; }
+    .tabs-container { max-width: 920px; margin: 0 auto; padding: 0 20px 80px; }
     .tabs { display: flex; gap: 4px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 6px; margin-bottom: 40px; overflow-x: auto; }
     .tab-btn { flex: 1; min-width: 120px; padding: 10px 16px; background: transparent; border: none; color: var(--text-muted); font-family: 'Noto Sans JP', sans-serif; font-size: 13px; letter-spacing: 0.06em; cursor: pointer; border-radius: 8px; transition: all 0.25s; white-space: nowrap; }
     .tab-btn.active { background: var(--accent); color: #1a1208; font-weight: 500; }
@@ -40,17 +39,17 @@
     .legal-table tr:last-child { border-bottom: none; }
     .legal-table th { width: 38%; padding: 18px 20px; font-weight: 400; color: var(--accent); font-size: 13px; letter-spacing: 0.06em; vertical-align: top; text-align: left; background: rgba(201, 169, 110, 0.04); }
     .legal-table td { padding: 18px 20px; color: var(--text); vertical-align: top; line-height: 1.8; }
-    .legal-table a { color: var(--accent); text-decoration: none; }
+    .legal-table a, .prose a { color: var(--accent); text-decoration: none; }
     .prose { font-size: 14px; color: var(--text); line-height: 2; }
     .prose h2 { font-family: 'Noto Serif JP', serif; font-weight: 400; font-size: 16px; color: var(--accent); letter-spacing: 0.1em; margin-top: 36px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
     .prose h2:first-child { margin-top: 0; }
-    .prose p { margin-bottom: 14px; color: var(--text); }
+    .prose p { margin-bottom: 14px; }
     .prose ul { margin: 10px 0 14px 0; padding-left: 0; list-style: none; }
-    .prose ul li { padding: 4px 0 4px 18px; position: relative; color: var(--text); font-size: 14px; }
+    .prose ul li { padding: 4px 0 4px 18px; position: relative; font-size: 14px; }
     .prose ul li::before { content: '・'; position: absolute; left: 0; color: var(--accent); }
-    .prose a { color: var(--accent); text-decoration: none; }
     .section-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 32px; margin-bottom: 20px; }
     .updated-date { font-size: 12px; color: var(--text-muted); margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--border); text-align: right; }
+    .notice { margin-top: 16px; padding: 14px 16px; border-radius: 10px; background: rgba(201,169,110,0.08); border: 1px solid rgba(201,169,110,0.16); font-size: 13px; color: var(--text-muted); }
     footer { border-top: 1px solid var(--border); padding: 24px 40px; text-align: center; font-size: 12px; color: var(--text-muted); letter-spacing: 0.08em; }
     @media (max-width: 600px) {
       header { padding: 16px 20px; }
@@ -63,12 +62,12 @@
 </head>
 <body>
   <header>
-    <a href="/" class="logo">INNER COMPASS<span>AI COACHING SERVICE</span></a>
+    <a href="/" class="logo">INNER COMPASS<span>FOR 1ON1</span></a>
     <a href="/" class="back-link">← サービストップへ</a>
   </header>
   <div class="page-header">
     <h1>特定商取引法に基づく表記</h1>
-    <p>Legal Information / Terms &amp; Privacy</p>
+    <p>Legal Information / Terms / Privacy</p>
   </div>
   <div class="tabs-container">
     <div class="tabs">
@@ -77,87 +76,142 @@
       <button class="tab-btn" onclick="showTab('privacy',this)">プライバシーポリシー</button>
       <button class="tab-btn" onclick="showTab('subscription',this)">サブスク規約</button>
     </div>
+
     <div id="tokushoho" class="tab-content active">
       <div class="section-card">
         <table class="legal-table">
           <tr><th>販売事業者名</th><td>クリエートプラス</td></tr>
-          <tr><th>運営責任者</th><td>片山晋</td></tr>
+          <tr><th>運営統括責任者</th><td>片山晋</td></tr>
           <tr><th>所在地</th><td>請求があった場合に遅滞なく開示いたします。</td></tr>
           <tr><th>電話番号</th><td>請求があった場合に遅滞なく開示いたします。</td></tr>
           <tr><th>メールアドレス</th><td><a href="mailto:ookura6882@gmail.com">ookura6882@gmail.com</a></td></tr>
-          <tr><th>サービス名</th><td>INNER COMPASS（AIコーチングサービス）</td></tr>
-          <tr><th>販売価格</th><td>月額 ¥980（税込）<br>※ 初回登録から1ヶ月間無料トライアルあり</td></tr>
+          <tr><th>販売URL</th><td><a href="https://coacing-app.vercel.app/">https://coacing-app.vercel.app/</a></td></tr>
+          <tr><th>サービス名</th><td>INNER COMPASS</td></tr>
+          <tr><th>サービス内容</th><td>管理職向けの1on1事前整理AIコーチングサービス</td></tr>
+          <tr><th>販売価格</th><td>月額 980円（税込）</td></tr>
+          <tr><th>商品代金以外に必要な料金</th><td>インターネット接続料金、通信料金等はお客様のご負担となります。</td></tr>
           <tr><th>支払方法</th><td>クレジットカード決済（Stripe）</td></tr>
-          <tr><th>支払時期</th><td>登録時に課金、毎月自動更新</td></tr>
-          <tr><th>引渡時期</th><td>決済完了後すぐにご利用いただけます。</td></tr>
-          <tr><th>解約方法</th><td>サービス内「契約内容・請求を管理する」ボタンから、次回更新日の前日までにご自身でキャンセル手続きをお願いいたします。<br><br>解約後は当月末まで引き続きご利用いただけます。</td></tr>
-          <tr><th>返品・返金</th><td>サービスの性質上、支払い後の返金は承っておりません。</td></tr>
-          <tr><th>注意書き</th><td>効果には個人差があります。</td></tr>
-          <tr><th>免責</th><td>本サービスは医療・法律・投資アドバイスではありません。</td></tr>
+          <tr><th>支払時期</th><td>初回申込み時に決済され、以後は契約更新日に応じて毎月自動課金されます。</td></tr>
+          <tr><th>サービス提供時期</th><td>登録手続き完了後、直ちにご利用いただけます。</td></tr>
+          <tr><th>無料トライアル</th><td>初回登録日から1か月間は無料で利用できます。無料期間終了後に継続利用する場合は有料プランへの申込みが必要です。</td></tr>
+          <tr><th>契約期間・自動更新</th><td>月額契約です。解約手続きが完了しない限り、1か月ごとに自動更新されます。</td></tr>
+          <tr><th>解約方法</th><td>サービス内の「契約内容・解約・請求を管理する」または「契約内容・請求を管理する」から、次回更新日の前日までにStripeのカスタマーポータル上で解約手続きを行ってください。解約後も、既に支払済みの利用期間満了日までは利用できます。</td></tr>
+          <tr><th>返品・返金</th><td>デジタルサービスの性質上、申込み完了後の返品、返金、日割り返金には対応しておりません。</td></tr>
+          <tr><th>動作環境</th><td>最新の主要ブラウザ（Google Chrome、Safari、Microsoft Edge等）での利用を推奨します。</td></tr>
+          <tr><th>表現およびサービスに関する注意書き</th><td>本サービスは、管理職の思考整理や1on1準備を支援するものであり、特定の成果、評価改善、離職防止等を保証するものではありません。</td></tr>
         </table>
-        <p class="updated-date">最終更新：2026年5月</p>
+        <div class="notice">住所・電話番号の開示請求は、上記メールアドレス宛にご連絡ください。特定商取引法に基づき、遅滞なく開示いたします。</div>
+        <p class="updated-date">最終更新日：2026年6月17日</p>
       </div>
     </div>
+
     <div id="terms" class="tab-content">
       <div class="section-card">
         <div class="prose">
-          <p>本利用規約（以下「本規約」といいます）は、クリエートプラス（以下「当社」といいます）が提供するAIコーチングサービス「INNER COMPASS」（以下「本サービス」といいます）の利用条件を定めるものです。</p>
-          <h2>第1条（適用）</h2><p>本規約は、本サービスの利用に関する一切の関係に適用されます。</p>
-          <h2>第2条（利用登録）</h2><p>ユーザーは、本規約に同意の上、本サービスを利用するものとします。</p>
-          <h2>第3条（サービス内容）</h2><p>本サービスは、AIによるコーチング対話を通じて、思考整理・自己理解・行動支援を目的としたサービスです。</p>
+          <p>この利用規約（以下「本規約」といいます）は、クリエートプラス（以下「当方」といいます）が提供する「INNER COMPASS」（以下「本サービス」といいます）の利用条件を定めるものです。利用者は、本サービスを利用することにより、本規約に同意したものとみなされます。</p>
+          <h2>第1条（適用）</h2>
+          <p>本規約は、本サービスの利用に関する当方と利用者との間の一切の関係に適用されます。</p>
+          <h2>第2条（サービス内容）</h2>
+          <p>本サービスは、管理職が1on1の実施前に考えを整理し、質問の方向性や部下への向き合い方を検討するためのAIコーチング支援サービスです。</p>
+          <h2>第3条（登録情報）</h2>
+          <p>利用者は、正確かつ最新の情報を登録するものとします。虚偽情報の登録により当方または第三者に損害が生じた場合、利用者が責任を負います。</p>
           <h2>第4条（禁止事項）</h2>
-          <p>ユーザーは以下の行為を行ってはなりません。</p>
           <ul>
             <li>法令または公序良俗に違反する行為</li>
-            <li>不正アクセスやサービスの妨害</li>
-            <li>他ユーザーへの迷惑行為</li>
-            <li>虚偽情報の登録</li>
-            <li>その他当社が不適切と判断する行為</li>
+            <li>本サービスの運営を妨害する行為</li>
+            <li>第三者の権利、利益、名誉、プライバシーを侵害する行為</li>
+            <li>不正アクセス、リバースエンジニアリング、過度な負荷をかける行為</li>
+            <li>本サービスの回答をそのまま専門助言として利用し、第三者に誤認させる行為</li>
+            <li>その他、当方が不適切と判断する行為</li>
           </ul>
-          <h2>第5条（免責事項）</h2><p>本サービスは、医療・法律・投資等の専門的助言を提供するものではありません。また、本サービスの利用による成果について、当社は一切の保証を行いません。</p>
-          <h2>第6条（サービスの変更・停止）</h2><p>当社は、事前の通知なく本サービスの内容変更・停止を行うことができます。</p>
-          <h2>第7条（利用停止）</h2><p>ユーザーが本規約に違反した場合、当社は事前通知なく利用停止できるものとします。</p>
-          <h2>第8条（規約の変更）</h2><p>当社は必要に応じて本規約を変更できるものとします。</p>
-          <h2>第9条（準拠法）</h2><p>本規約は日本法に準拠します。</p>
+          <h2>第5条（知的財産権）</h2>
+          <p>本サービスに関するプログラム、デザイン、文章その他一切の知的財産権は当方または正当な権利者に帰属します。</p>
+          <h2>第6条（AI回答に関する注意）</h2>
+          <p>本サービスはAIを用いて回答を生成します。回答内容には不正確または不適切な情報が含まれる可能性があります。利用者は、自らの判断と責任において本サービスを利用するものとします。</p>
+          <h2>第7条（免責）</h2>
+          <p>本サービスは、医療、法律、労務、投資その他専門家による助言を提供するものではありません。また、本サービスの利用による成果、トラブル回避、評価改善、離職率低下等について当方は保証しません。</p>
+          <h2>第8条（サービスの変更・停止）</h2>
+          <p>当方は、保守、障害対応、外部サービスの変更その他の理由により、事前通知なく本サービスの全部または一部を変更、停止または終了できるものとします。</p>
+          <h2>第9条（利用停止）</h2>
+          <p>利用者が本規約に違反した場合、当方は事前通知なく本サービスの利用を停止または登録を解除できるものとします。</p>
+          <h2>第10条（規約変更）</h2>
+          <p>当方は、必要と判断した場合、本規約を変更できます。重要な変更がある場合は、本サービス上または当方が適当と判断する方法で周知します。</p>
+          <h2>第11条（準拠法・管轄）</h2>
+          <p>本規約は日本法に準拠します。本サービスに関して紛争が生じた場合は、当方所在地を管轄する裁判所を第一審の専属的合意管轄とします。</p>
         </div>
-        <p class="updated-date">最終更新：2026年5月</p>
+        <p class="updated-date">最終更新日：2026年6月17日</p>
       </div>
     </div>
+
     <div id="privacy" class="tab-content">
       <div class="section-card">
         <div class="prose">
-          <p>クリエートプラスは、ユーザーの個人情報を以下の方針に基づき適切に取り扱います。</p>
+          <p>クリエートプラス（以下「当方」といいます）は、本サービスにおいて取得する利用者情報を、以下の方針に基づき適切に取り扱います。</p>
           <h2>1. 取得する情報</h2>
-          <ul><li>メールアドレス</li><li>利用履歴</li><li>入力されたテキスト情報（コーチング内容）</li></ul>
+          <ul>
+            <li>メールアドレス</li>
+            <li>課金・契約状態に関する情報</li>
+            <li>本サービスで入力されたテキスト情報</li>
+            <li>利用日時、利用回数、ブラウザ保存された履歴等の利用状況</li>
+            <li>お問い合わせ内容</li>
+          </ul>
           <h2>2. 利用目的</h2>
-          <ul><li>サービス提供および改善</li><li>ユーザーサポート</li><li>不正防止</li></ul>
-          <h2>3. 情報の管理</h2><p>取得した情報は適切に管理し、不正アクセスや漏洩防止に努めます。</p>
-          <h2>4. 第三者提供</h2><p>法令に基づく場合を除き、第三者に提供しません。</p>
-          <h2>5. 外部サービス</h2><p>決済にはStripeを利用します。各サービスのプライバシーポリシーもご確認ください。</p>
-          <h2>6. ユーザーの権利</h2><p>ユーザーは自身の情報の開示・訂正・削除を求めることができます。</p>
-          <h2>7. お問い合わせ</h2><p><a href="mailto:ookura6882@gmail.com">ookura6882@gmail.com</a></p>
+          <ul>
+            <li>本サービスの提供、本人確認、課金管理のため</li>
+            <li>本サービスの改善、品質向上、不具合対応のため</li>
+            <li>お問い合わせ対応のため</li>
+            <li>不正利用防止、セキュリティ対応のため</li>
+            <li>法令遵守その他正当な業務遂行のため</li>
+          </ul>
+          <h2>3. 外部サービスの利用</h2>
+          <p>当方は、サービス提供のために以下の外部サービスを利用することがあります。</p>
+          <ul>
+            <li>OpenAI: AI応答生成</li>
+            <li>Stripe: 決済処理、契約管理</li>
+            <li>Google: スプレッドシート等を用いた運営管理</li>
+            <li>Vercel: アプリのホスティングおよび配信</li>
+          </ul>
+          <p>これらの外部事業者に対し、サービス提供に必要な範囲で情報を提供する場合があります。</p>
+          <h2>4. 第三者提供</h2>
+          <p>当方は、法令に基づく場合を除き、本人の同意なく個人情報を第三者に提供しません。ただし、決済、AI応答生成、運営管理等の委託先への提供はこの限りではありません。</p>
+          <h2>5. 安全管理措置</h2>
+          <p>当方は、不正アクセス、漏えい、改ざん、滅失等を防止するため、合理的な安全管理措置を講じるよう努めます。</p>
+          <h2>6. 保有期間</h2>
+          <p>取得した情報は、利用目的達成に必要な期間または法令で要求される期間、保有することがあります。</p>
+          <h2>7. 開示・訂正・削除等の請求</h2>
+          <p>利用者は、法令の定めに従い、自身の個人情報について開示、訂正、利用停止、削除等を求めることができます。希望する場合は、下記お問い合わせ先までご連絡ください。</p>
+          <h2>8. お問い合わせ窓口</h2>
+          <p><a href="mailto:ookura6882@gmail.com">ookura6882@gmail.com</a></p>
         </div>
-        <p class="updated-date">最終更新：2026年5月</p>
+        <p class="updated-date">最終更新日：2026年6月17日</p>
       </div>
     </div>
+
     <div id="subscription" class="tab-content">
       <div class="section-card">
         <div class="prose">
-          <h2>1. 料金</h2><p>本サービスは月額 <strong>¥980（税込）</strong> で提供されます。</p>
-          <h2>2．無料体験</h2><p>登録後 <strong>1ヶ月間無料</strong> でお試しいただけます。トライアル終了後のご利用には月額サブスクリプション登録が必要です。
-          <h2>3. 支払方法</h2><p>Stripeによるクレジットカード決済</p>
-          <h2>4. 更新</h2><p>サブスクリプションは毎月自動更新されます。</p>
+          <h2>1. 月額料金</h2>
+          <p>本サービスの利用料金は月額980円（税込）です。</p>
+          <h2>2. 無料トライアル</h2>
+          <p>初回登録日から1か月間は無料で利用できます。無料期間終了後も継続して利用する場合は、有料プランへの登録が必要です。</p>
+          <h2>3. 課金開始時期</h2>
+          <p>有料プランに申込みした時点で決済が実行され、その後は1か月ごとに自動更新されます。</p>
+          <h2>4. 自動更新</h2>
+          <p>サブスクリプションは、利用者が所定の方法で解約しない限り、自動的に更新されます。</p>
           <h2>5. 解約</h2>
-          <p>ユーザーはいつでも解約可能です。サービス内「契約内容・請求を管理する」ボタンから、<strong>次回更新日の前日まで</strong>にご自身でキャンセル手続きをお願いいたします。</p>
-          <p>解約後は当月末まで引き続きご利用いただけます。</p>
-          <h2>6. 返金</h2><p>サービスの性質上、支払い後の返金は承っておりません。</p>
-          <h2>7. サービス変更</h2><p>内容・価格は事前にお知らせの上、変更される場合があります。</p>
+          <p>解約は、次回更新日の前日までにStripeのカスタマーポータル上で手続きしてください。期限までに手続きが完了しない場合、次回分の料金が発生します。</p>
+          <h2>6. 解約後の利用</h2>
+          <p>解約後も、既に支払済みの利用期間満了日までは利用できます。</p>
+          <h2>7. 返金</h2>
+          <p>支払済み料金の返金、日割り返金は行いません。</p>
+          <h2>8. 価格改定</h2>
+          <p>料金を改定する場合は、合理的な期間をおいて事前に本サービス上または適当な方法で通知します。</p>
         </div>
-        <p class="updated-date">最終更新：2026年5月</p>
+        <p class="updated-date">最終更新日：2026年6月17日</p>
       </div>
     </div>
   </div>
-  <footer>&copy; 2026 クリエートプラス / INNER COMPASS. All rights reserved.</footer>
+  <footer>&copy; 2026 クリエートプラス / INNER COMPASS</footer>
   <script>
     function showTab(id, btn) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
