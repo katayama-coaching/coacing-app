@@ -12,9 +12,10 @@ module.exports = async (req, res) => {
       return res.status(400).json({ error: 'customerId is required' });
     }
 
+    const baseUrl = (process.env.BASE_URL || 'https://coacing-app.vercel.app').replace(/\/$/, '');
     const session = await stripe.billingPortal.sessions.create({
       customer: customerId,
-      return_url: 'https://coacing-app.vercel.app/',
+      return_url: `${baseUrl}/`,
     });
 
     res.status(200).json({ url: session.url });
