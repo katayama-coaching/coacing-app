@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>INNER COMPASS | 1on1準備のためのAIコーチング</title>
+<title>INNER COMPASS | 1on1前のGROWコーチング</title>
 <style>
 #vercel-live-feedback,vercel-live-feedback{display:none!important}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -108,8 +108,8 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 2
       <div class="lg-logo-box">C</div>
       <span class="lg-logo-name">INNER COMPASS</span>
     </div>
-    <p class="lg-title">1on1前に頭の中を整理する<br>AIコーチング</p>
-    <p class="lg-sub">部下との面談前に、何を聞くか、どこに注目するかを整理するための補助アプリです。<br>初めての方はそのままお進みいただけます。</p>
+    <p class="lg-title">1on1前に頭の中を整える<br>GROWコーチング</p>
+    <p class="lg-sub">部下との面談前に、何を知りたいのか、何を大切にしたいのか、自分の問いを整理するための補助アプリです。<br>講座で学んだ内容を、本番前の言葉に落とし込めます。</p>
     <input type="email" id="lg-email" class="lg-input" placeholder="example@email.com" autocomplete="email">
     <div class="lg-err" id="lg-err"></div>
     <button class="lg-btn" id="lg-btn" onclick="doLogin()">続ける →</button>
@@ -124,7 +124,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 2
     <div class="logo">
       <div class="logo-box">C</div>
       <span class="logo-name">INNER COMPASS</span>
-      <span class="logo-badge">FOR 1ON1</span>
+      <span class="logo-badge">GROW FOR 1ON1</span>
     </div>
     <div class="hdr-right">
       <a href="https://1on1-practice-app.vercel.app/" class="hdr-btn" target="_blank" rel="noopener noreferrer">1on1講座へ</a>
@@ -140,30 +140,30 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 2
   <div id="welcome">
     <div class="welcome-inner">
       <div class="hero">
-        <div class="hero-badge"><div class="live-dot"></div><span class="badge-lbl">BEFORE 1ON1 SESSION</span></div>
-        <h1>1on1の前に、<br><b>自分の問いを整える。</b></h1>
-        <p>部下に何を聞くか迷う管理職が、本番前に考えを整理するためのAIコーチングです。1on1基礎コーチング講座と併用すると、学んだ聞き方を実際の言葉に落とし込みやすくなります。</p>
+        <div class="hero-badge"><div class="live-dot"></div><span class="badge-lbl">GROW BEFORE 1ON1</span></div>
+        <h1>1on1の前に、<br><b>自分の考えを整える。</b></h1>
+        <p>教え方を決める前に、まず自分が今回の面談で何を目指し、何を知りたいのかを整理するためのAIコーチングです。GROWの流れで、本番前の迷いを言葉に変えていきます。</p>
       </div>
       <div class="starters">
-        <button class="s-btn" onclick="begin('最近元気がない部下に、最初どう入ればいいか整理したい')"><span class="s-emoji">🌿</span><span class="s-txt">元気がない部下への入り方を整理したい</span></button>
-        <button class="s-btn" onclick="begin('退職を考えていそうな部下に、どこまで踏み込むべきか整理したい')"><span class="s-emoji">🧭</span><span class="s-txt">退職予兆への向き合い方を整理したい</span></button>
-        <button class="s-btn" onclick="begin('1on1で何を聞くべきか、最初の3質問を整理したい')"><span class="s-emoji">💬</span><span class="s-txt">最初の3質問を整理したい</span></button>
-        <button class="s-btn" onclick="begin('若手が自信をなくしている時の聞き方を整理したい')"><span class="s-emoji">🌱</span><span class="s-txt">若手の自信低下への聞き方を整理したい</span></button>
-        <button class="s-btn" onclick="begin('忙しそうな部下に配慮しながら話す進め方を整理したい')"><span class="s-emoji">⏳</span><span class="s-txt">忙しい部下への配慮の仕方を整理したい</span></button>
-        <button class="s-btn" onclick="begin('自分が話しすぎてしまうので、聞く比率を上げるための進め方を整理したい')"><span class="s-emoji">🎧</span><span class="s-txt">自分が話しすぎる癖を整えたい</span></button>
+        <button class="s-btn" onclick="begin('最近元気がない部下との1on1で、自分は何を目指すべきか整理したい')"><span class="s-emoji">🌿</span><span class="s-txt">元気がない部下との面談目的を整理したい</span></button>
+        <button class="s-btn" onclick="begin('退職を考えていそうな部下との1on1で、どこまで踏み込むべきか整理したい')"><span class="s-emoji">🧭</span><span class="s-txt">退職予兆への向き合い方を整理したい</span></button>
+        <button class="s-btn" onclick="begin('1on1で何を聞くかより前に、自分は何を一番知りたいのか整理したい')"><span class="s-emoji">💬</span><span class="s-txt">最初の3質問の前に目的を整理したい</span></button>
+        <button class="s-btn" onclick="begin('若手が自信をなくしている時、自分は何を急ぎすぎているのか整理したい')"><span class="s-emoji">🌱</span><span class="s-txt">若手との面談で自分の癖を整理したい</span></button>
+        <button class="s-btn" onclick="begin('忙しそうな部下との面談で、配慮と深掘りのバランスを整理したい')"><span class="s-emoji">⏳</span><span class="s-txt">配慮と深掘りのバランスを整理したい</span></button>
+        <button class="s-btn" onclick="begin('自分が話しすぎる癖があるので、今回は何を手放すべきか整理したい')"><span class="s-emoji">🎧</span><span class="s-txt">自分が話しすぎる癖を見直したい</span></button>
       </div>
-      <button class="free-btn" onclick="begin(null)">テーマを決めずに、本番前の頭の整理を始める →</button>
+      <button class="free-btn" onclick="begin(null)">テーマを決めずに、今回の1on1前整理を始める →</button>
       <a class="link-card" href="https://1on1-practice-app.vercel.app/" target="_blank" rel="noopener noreferrer">
         <small>あわせて使う</small>
         <strong>1on1基礎コーチング講座で学び、ここで本番前に整理する</strong>
-        <span>講座で学んだ「安心感づくり」「深掘り」「共感」の型を、このアプリで次の面談用の言葉に変えられます。</span>
+        <span>講座で学んだ「安心感づくり」「深掘り」「共感」の型を、このアプリで自分なりの面談方針に整えられます。</span>
       </a>
       <div style="background:rgba(200,169,110,0.07);border:1px solid rgba(200,169,110,0.25);border-radius:12px;padding:14px 16px;margin-bottom:14px;">
         <p style="font-size:10px;color:#c8a96e;letter-spacing:.12em;font-weight:700;margin-bottom:10px;">✦ ご購読に含まれる機能</p>
         <div style="display:flex;flex-direction:column;gap:7px;">
-          <div style="display:flex;align-items:center;gap:9px;font-size:12px;color:#e8e4dc;"><span>💬</span>AIコーチング無制限</div>
-          <div style="display:flex;align-items:center;gap:9px;font-size:12px;color:#e8e4dc;"><span>🪞</span>1on1前の問いの整理と感情の棚卸し</div>
-          <div style="display:flex;align-items:center;gap:9px;font-size:12px;color:#e8e4dc;"><span>📝</span>面談前に言葉を整える壁打ち用途</div>
+          <div style="display:flex;align-items:center;gap:9px;font-size:12px;color:#e8e4dc;"><span>💬</span>GROWベースのAIコーチング無制限</div>
+          <div style="display:flex;align-items:center;gap:9px;font-size:12px;color:#e8e4dc;"><span>🪞</span>面談前の目的整理と自分の癖の棚卸し</div>
+          <div style="display:flex;align-items:center;gap:9px;font-size:12px;color:#e8e4dc;"><span>📝</span>本番前に問いや順番を言葉へ落とし込む壁打ち</div>
           <div style="display:flex;align-items:center;gap:9px;font-size:12px;color:#e8e4dc;"><span>🔒</span>完全非公開・外部共有なし</div>
         </div>
       </div>
@@ -171,9 +171,9 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 2
       <p style="text-align:center;font-size:11px;color:#c8a96e;margin-bottom:10px;">登録無料で1ヶ月間お試しいただけます</p>
       <button class="portal-btn" id="portal-btn" style="display:none" onclick="openPortal()">⚙️ 契約内容・解約・請求を管理する</button>
       <div class="feats">
-        <div class="feat"><span class="feat-ic">◈</span><span class="feat-lb">面談前整理</span><span class="feat-dc">問い・順番・温度感を整える</span></div>
+        <div class="feat"><span class="feat-ic">◈</span><span class="feat-lb">GROW整理</span><span class="feat-dc">Goal・Reality・Options・Willで整える</span></div>
         <div class="feat"><span class="feat-ic">◉</span><span class="feat-lb">完全非公開</span><span class="feat-dc">外部共有・サーバー保存なし</span></div>
-        <div class="feat"><span class="feat-ic">◇</span><span class="feat-lb">24時間対応</span><span class="feat-dc">次の1on1前にすぐ壁打ち可能</span></div>
+        <div class="feat"><span class="feat-ic">◇</span><span class="feat-lb">本番前支援</span><span class="feat-dc">次の1on1前にすぐ壁打ち可能</span></div>
       </div>
       <div style="text-align:center;padding:16px 0 4px;">
         <a href="/tokushoho.html" style="font-size:11px;color:#5a8fa8;text-decoration:none;letter-spacing:.08em;">特定商取引法に基づく表記 / 利用規約 / プライバシーポリシー</a>
@@ -189,7 +189,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 2
     <div class="msgs" id="msgs"></div>
     <div class="input-area">
       <div class="input-wrap" id="iw">
-        <textarea id="ta" rows="1" placeholder="次の1on1に向けて、いま整理したいことを書いてください…"></textarea>
+        <textarea id="ta" rows="1" placeholder="今回の1on1前に、いま整理したいことを書いてください…"></textarea>
         <div class="input-foot">
           <span class="char-lbl" id="char-lbl">Shift+Enter で改行</span>
           <button id="send-btn" disabled onclick="send()">送信</button>
@@ -230,9 +230,9 @@ function doLogin(){
     })
     .catch(function(){errEl.textContent='通信エラーが発生しました。再度お試しください。';btn.disabled=false;btn.textContent='続ける →';});
 }
-var SYSTEM='あなたは、管理職のための1on1事前整理コーチです。答えを与えるのではなく、次の1on1で何を聞くか、どこに注目するか、どの順番で話すかを整理できるように支援してください。批判や判断はせず、相手が自分で考えを言語化できるよう促します。1回の返答では質問は1つまで。日本語で、落ち着いて、実務的に、3〜5文程度で返してください。\n\n【基本姿勢】まず管理職の迷いや不安を短く受け止めること。そのうえで、部下の状態、面談の目的、最初の入り方、避けたい一言のどれを整理すべきかを見極めて問いを返してください。\n\n【返答の方向性】必要に応じて、①部下の状態整理 ②面談の目的整理 ③最初の質問づくり ④深掘りポイント整理 ⑤避けたい返し方の確認 のいずれかに寄せてください。解決策を断定せず、次の1on1に持っていける言葉へ整えることを優先してください。';
-var QUICK=['最初の一言を整えたい','もう少し深掘りしたい','避けたい返し方も見たい','次の質問を一緒に考えたい'];
-var PHASES=['','状況を整理中','目的を絞り込み中','質問を整え中','本番イメージが見えてきた','次の1on1に持ち込める状態'];
+var SYSTEM='あなたは、管理職のためのGROWコーチです。1on1の直前にいる管理職が、自分の考えを整理し、今回の面談で何を目指すか、いま何が起きているか、どんな選択肢があり、最終的にどう臨むかを自分の言葉で整理できるよう支援してください。答えを与えすぎず、本人の内省を促しながら、最後は実務に持ち込める形へ整えます。1回の返答では質問は1つまで。日本語で、落ち着いて、温かく、実務的に、3〜5文程度で返してください。\n\n【GROWの基本】Goal（今回の1on1で何を目指したいか）→ Reality（今どんな状態が起きているか）→ Options（どういう関わり方がありそうか）→ Will（今回はどう臨むか）の流れを意識してください。ただし、毎回GROWの名称を表に出す必要はありません。\n\n【返答の姿勢】最初に管理職の迷いや重さを短く受け止めてください。そのうえで、すぐに教え込まず、本人が『自分は何を知りたいのか』『何を急ぎすぎているのか』『今回どこまで踏み込むのか』を考えられる問いを返してください。必要なら最後の段階でだけ、最初の一言や次の質問に軽く落とし込んでください。';
+var QUICK=['今回のGoalをはっきりさせたい','Realityをもう少し整理したい','Optionsを広げたい','最後の一言まで整えたい'];
+var PHASES=['','Goalを整理中','Realityを見直し中','Optionsを広げ中','Willを整え中','本番前の軸が見えてきた'];
 var msgs=[],busy=false,sesN=0,exchanges=0,composing=false;
 if(!localStorage.getItem('trial_start_date')){
   localStorage.setItem('trial_start_date',Date.now().toString());
