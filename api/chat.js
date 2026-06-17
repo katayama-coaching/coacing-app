@@ -9,7 +9,10 @@ async function callOpenAI({ system, messages, maxOutputTokens = 1500, model }) {
     },
     ...messages.map((message) => ({
       role: message.role,
-      content: [{ type: 'input_text', text: message.content }],
+      content: [{
+        type: message.role === 'assistant' ? 'output_text' : 'input_text',
+        text: message.content,
+      }],
     })),
   ];
 
